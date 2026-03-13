@@ -1,75 +1,77 @@
-@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Share+Tech+Mono&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=VT323&family=Share+Tech+Mono&display=swap');
 
 :root {
-  --bg:           #0b0a12;
-  --bg-2:         #110f1e;
-  --bg-3:         #1a1829;
-  --gold:         #c9a84c;
-  --gold-bright:  #e8c96a;
-  --gold-dim:     #6b5520;
-  --text:         #c0b8d4;
-  --text-bright:  #e4ddf2;
-  --text-dim:     #58536a;
-  --border:       #221f35;
-  --border-gold:  #3d3018;
-  --teal:         #4fa8a4;
-  --red:          #b04040;
-  --font-heading: 'Cinzel', serif;
-  --font-mono:    'Share Tech Mono', monospace;
-  --glow:         0 0 12px rgba(201, 168, 76, 0.25);
-  --glow-strong:  0 0 20px rgba(201, 168, 76, 0.55);
-
-  /* legacy aliases so existing pages don't break */
-  --green:        var(--text);
-  --green-bright: var(--gold-bright);
-  --green-dim:    var(--text-dim);
-  --amber:        var(--gold);
-  --white:        var(--text-bright);
+  --bg:            #050805;
+  --bg-2:          #0a0f0a;
+  --bg-3:          #0e140e;
+  --green:         #33cc33;
+  --green-bright:  #00ff41;
+  --green-dim:     #1a7a1a;
+  --amber:         #ff8c00;
+  --red:           #ff3333;
+  --white:         #c8ffc8;
+  --border:        #1a5c1a;
+  --font-pixel:    'VT323', monospace;
+  --font-mono:     'Share Tech Mono', monospace;
+  --glow:          0 0 8px rgba(0, 255, 65, 0.4);
+  --glow-strong:   0 0 12px rgba(0, 255, 65, 0.7);
 }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
 html { scroll-behavior: smooth; }
 
 body {
   background-color: var(--bg);
-  color: var(--text);
+  color: var(--green);
   font-family: var(--font-mono);
   font-size: 15px;
-  line-height: 1.75;
+  line-height: 1.7;
   min-height: 100vh;
   position: relative;
   overflow-x: hidden;
 }
 
-/* Atmospheric vignette — no scanlines */
-body::after {
+/* CRT scanlines */
+body::before {
   content: '';
   position: fixed;
   inset: 0;
-  background: radial-gradient(ellipse at center, transparent 50%, rgba(0, 0, 0, 0.65) 100%);
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 0, 0, 0.06) 2px,
+    rgba(0, 0, 0, 0.06) 4px
+  );
   pointer-events: none;
   z-index: 9999;
 }
 
-a {
-  color: var(--gold);
-  text-decoration: none;
-  transition: color 0.2s, text-shadow 0.2s;
+/* CRT vignette */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(ellipse at center, transparent 55%, rgba(0, 0, 0, 0.55) 100%);
+  pointer-events: none;
+  z-index: 9998;
 }
-a:hover { color: var(--gold-bright); text-shadow: var(--glow); }
+
+a { color: var(--green-bright); text-decoration: none; transition: text-shadow 0.2s; }
+a:hover { text-shadow: var(--glow-strong); text-decoration: underline; }
 
 h1, h2, h3, h4, h5 {
-  font-family: var(--font-heading);
-  color: var(--gold-bright);
+  font-family: var(--font-pixel);
+  color: var(--green-bright);
   text-shadow: var(--glow);
-  letter-spacing: 0.08em;
-  font-weight: 600;
-  line-height: 1.25;
+  letter-spacing: 0.06em;
+  line-height: 1.2;
 }
 
 p { margin-bottom: 1rem; }
 ul, ol { margin-left: 1.5rem; margin-bottom: 1rem; }
-li { margin-bottom: 0.3rem; }
+li { margin-bottom: 0.25rem; }
 
 .container {
   max-width: 860px;
@@ -77,127 +79,94 @@ li { margin-bottom: 0.3rem; }
   padding: 0 1.5rem;
 }
 
-/* ── Box / panel ──────────────────────────── */
+/* ── Terminal box ─────────────────────────── */
 .box {
-  border: 1px solid var(--border-gold);
+  border: 1px solid var(--border);
   background: var(--bg-2);
   padding: 1.5rem;
   position: relative;
   margin-bottom: 1.5rem;
 }
-
-/* Subtle corner shimmer */
-.box::before {
-  content: '';
+.box[data-title]::before {
+  content: '[ ' attr(data-title) ' ]';
   position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    135deg,
-    rgba(201, 168, 76, 0.06) 0%,
-    transparent 40%,
-    transparent 60%,
-    rgba(201, 168, 76, 0.03) 100%
-  );
-  pointer-events: none;
-}
-
-.box[data-title]::after {
-  content: '\2756  ' attr(data-title) '  \2756';
-  position: absolute;
-  top: -0.7em;
+  top: -0.65em;
   left: 1em;
   background: var(--bg);
-  padding: 0 0.6em;
-  color: var(--gold);
-  font-family: var(--font-heading);
-  font-size: 0.72rem;
-  letter-spacing: 0.18em;
-  font-weight: 700;
+  padding: 0 0.4em;
+  color: var(--green-bright);
+  font-family: var(--font-pixel);
+  font-size: 1rem;
+  letter-spacing: 0.12em;
 }
 
-/* ── Cursor ───────────────────────────────── */
+/* ── Blinking cursor ──────────────────────── */
 @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
 .cursor {
   display: inline-block;
-  width: 2px;
+  width: 0.55em;
   height: 1.1em;
-  background: var(--gold);
+  background: var(--green-bright);
   vertical-align: middle;
-  margin-left: 3px;
-  animation: blink 1.2s step-end infinite;
+  margin-left: 2px;
+  animation: blink 1s step-end infinite;
 }
 
-/* ── Heading pulse (replaces glitch) ─────── */
-@keyframes goldPulse {
-  0%,100% { text-shadow: var(--glow); }
-  50%     { text-shadow: var(--glow-strong); }
+/* ── Subtle glitch on headings ────────────── */
+@keyframes glitch {
+  0%,90%,100%  { text-shadow: var(--glow); transform: none; }
+  91%  { text-shadow: 2px 0 0 rgba(255,0,80,0.4), -2px 0 0 rgba(0,255,200,0.3); transform: translateX(2px); }
+  93%  { text-shadow: -2px 0 0 rgba(255,0,80,0.4), 2px 0 0 rgba(0,255,200,0.3); transform: translateX(-2px); }
+  95%  { text-shadow: var(--glow); transform: translateX(1px); }
 }
-.glitch { animation: goldPulse 5s ease-in-out infinite; }
+.glitch { animation: glitch 6s ease-in-out infinite; }
 
 /* ── Skill bar ────────────────────────────── */
 .skill-bar {
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.4rem;
+  font-size: 0.9rem;
 }
-.skill-bar .label { min-width: 280px; color: var(--text-bright); font-size: 0.88rem; flex-shrink: 0; }
+.skill-bar .label { min-width: 200px; color: var(--white); }
 .skill-bar .track {
   flex: 1;
-  height: 7px;
+  height: 10px;
   background: var(--bg-3);
   border: 1px solid var(--border);
+  position: relative;
   overflow: hidden;
 }
 .skill-bar .fill {
   height: 100%;
-  background: linear-gradient(90deg, var(--gold-dim), var(--gold));
-  box-shadow: 0 0 6px rgba(201, 168, 76, 0.4);
+  background: linear-gradient(90deg, var(--green-dim), var(--green-bright));
+  box-shadow: 0 0 6px var(--green-bright);
+  transition: width 1s ease;
 }
-.skill-bar .pct { min-width: 2.5em; text-align: right; font-size: 0.82rem; color: var(--text-dim); }
 
-/* ── Tags ─────────────────────────────────── */
+/* ── Tag pills ────────────────────────────── */
 .tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin: 0.5rem 0; }
 .tag {
-  font-family: var(--font-heading);
-  font-size: 0.68rem;
-  color: var(--teal);
-  border: 1px solid var(--teal);
-  padding: 0.05em 0.55em;
-  letter-spacing: 0.12em;
-  font-weight: 600;
+  font-family: var(--font-pixel);
+  font-size: 0.85rem;
+  color: var(--amber);
+  border: 1px solid var(--amber);
+  padding: 0 0.45em;
+  letter-spacing: 0.08em;
   opacity: 0.85;
 }
 
-/* ── Utility ──────────────────────────────── */
-.amber, .gold { color: var(--gold); }
-.dim          { color: var(--text-dim); }
-.bright       { color: var(--text-bright); }
-.teal         { color: var(--teal); }
+/* ── Amber highlight ──────────────────────── */
+.amber { color: var(--amber); }
+.dim   { color: var(--green-dim); }
+.bright{ color: var(--green-bright); }
 
-::selection { background: var(--border-gold); color: var(--gold-bright); }
-
-/* ── Decorative divider ───────────────────── */
-.divider {
-  border: none;
-  border-top: 1px solid var(--border-gold);
-  margin: 2rem 0;
-  position: relative;
-}
-.divider::after {
-  content: '✦';
-  position: absolute;
-  top: -0.65em;
-  left: 50%;
-  transform: translateX(-50%);
-  background: var(--bg);
-  padding: 0 0.5em;
-  color: var(--gold-dim);
-  font-size: 0.8rem;
-}
+/* ── Selection ────────────────────────────── */
+::selection { background: var(--green-dim); color: var(--green-bright); }
 
 /* ── Responsive ───────────────────────────── */
 @media (max-width: 600px) {
   body { font-size: 14px; }
-  .skill-bar .label { min-width: 150px; font-size: 0.8rem; }
+  .skill-bar .label { min-width: 140px; font-size: 0.8rem; }
 }

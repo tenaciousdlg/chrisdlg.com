@@ -1,9 +1,9 @@
 ---
 const links = [
-  { href: '/',         label: 'Home'        },
-  { href: '/resume',   label: 'Resume'      },
-  { href: '/projects', label: 'Projects'    },
-  { href: '/blog',     label: 'Field Notes' },
+  { href: '/',         label: 'HOME'     },
+  { href: '/resume',   label: 'RESUME'   },
+  { href: '/projects', label: 'PROJECTS' },
+  { href: '/blog',     label: 'BLOG'     },
 ];
 
 const current = Astro.url.pathname;
@@ -12,7 +12,7 @@ const current = Astro.url.pathname;
 <header>
   <nav class="container">
     <a href="/" class="brand" aria-label="Home">
-      Chris De La Garza
+      <span class="brand-bracket">&gt;</span> chrisdlg<span class="brand-cursor"></span>
     </a>
     <ul role="list">
       {links.map(({ href, label }) => (
@@ -21,7 +21,7 @@ const current = Astro.url.pathname;
             href={href}
             class:list={['nav-link', { active: current === href || (href !== '/' && current.startsWith(href)) }]}
           >
-            {label}
+            [{label}]
           </a>
         </li>
       ))}
@@ -31,13 +31,12 @@ const current = Astro.url.pathname;
 
 <style>
   header {
-    border-bottom: 1px solid var(--border-gold);
-    background: rgba(11, 10, 18, 0.96);
-    backdrop-filter: blur(6px);
+    border-bottom: 1px solid var(--border);
+    background: var(--bg);
     position: sticky;
     top: 0;
     z-index: 100;
-    padding: 0.9rem 0;
+    padding: 0.75rem 0;
   }
 
   nav {
@@ -49,59 +48,48 @@ const current = Astro.url.pathname;
   }
 
   .brand {
-    font-family: var(--font-heading);
-    font-size: 1.05rem;
-    font-weight: 700;
-    color: var(--gold-bright);
+    font-family: var(--font-pixel);
+    font-size: 1.4rem;
+    color: var(--green-bright);
     text-shadow: var(--glow);
     text-decoration: none;
-    letter-spacing: 0.12em;
   }
-  .brand:hover { color: var(--gold-bright); text-shadow: var(--glow-strong); }
+  .brand:hover { text-decoration: none; text-shadow: var(--glow-strong); }
+
+  .brand-bracket { color: var(--amber); }
+
+  .brand-cursor {
+    display: inline-block;
+    width: 0.5em;
+    height: 0.9em;
+    background: var(--green-bright);
+    vertical-align: middle;
+    margin-left: 2px;
+    animation: blink 1s step-end infinite;
+  }
+
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
 
   ul {
     display: flex;
     list-style: none;
-    gap: 0.15rem;
+    gap: 0.25rem;
     margin: 0;
     padding: 0;
   }
 
   .nav-link {
-    font-family: var(--font-heading);
-    font-size: 0.75rem;
-    font-weight: 600;
-    color: var(--text-dim);
-    padding: 0.25rem 0.65rem;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    transition: color 0.2s, text-shadow 0.2s;
-    position: relative;
-    text-decoration: none;
+    font-family: var(--font-pixel);
+    font-size: 1rem;
+    color: var(--green-dim);
+    padding: 0.2rem 0.4rem;
+    letter-spacing: 0.08em;
+    transition: color 0.15s, text-shadow 0.15s;
   }
-
-  .nav-link::after {
-    content: '';
-    position: absolute;
-    bottom: -2px;
-    left: 0.65rem;
-    right: 0.65rem;
-    height: 1px;
-    background: var(--gold);
-    transform: scaleX(0);
-    transition: transform 0.2s;
-    transform-origin: center;
-  }
-
   .nav-link:hover,
   .nav-link.active {
-    color: var(--gold-bright);
+    color: var(--green-bright);
     text-shadow: var(--glow);
     text-decoration: none;
-  }
-
-  .nav-link.active::after,
-  .nav-link:hover::after {
-    transform: scaleX(1);
   }
 </style>

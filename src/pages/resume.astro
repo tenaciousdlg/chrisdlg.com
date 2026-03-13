@@ -3,7 +3,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 ---
 
 <BaseLayout title="Resume" description="Chris De La Garza — Senior Solutions Engineer. Infrastructure, security, cloud, and pre-sales.">
-  <h1 class="glitch page-title">Character Sheet</h1>
+  <h1 class="glitch page-title">// CHARACTER SHEET</h1>
 
   <!-- Identity block -->
   <div class="box" data-title="IDENTITY">
@@ -207,14 +207,14 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: 1.5rem;
   }
-  .stack-group h3 { font-size: 1rem; margin-bottom: 0.5rem; color: var(--amber); font-family: var(--font-heading); }
+  .stack-group h3 { font-size: 1rem; margin-bottom: 0.5rem; color: var(--amber); font-family: var(--font-pixel); }
   .stack-group ul { list-style: none; padding: 0; }
   .stack-group li::before { content: '> '; color: var(--green-dim); }
 
   .quest { margin-bottom: 1.75rem; padding-bottom: 1.75rem; border-bottom: 1px solid var(--bg-3); }
   .quest:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
   .quest-header { display: flex; flex-wrap: wrap; gap: 0.5rem 1rem; align-items: baseline; margin-bottom: 0.6rem; }
-  .quest-company { font-family: var(--font-heading); font-size: 1.1rem; letter-spacing: 0.06em; }
+  .quest-company { font-family: var(--font-pixel); font-size: 1.1rem; letter-spacing: 0.06em; }
   .quest-role { color: var(--white); }
   .quest-date { font-size: 0.85rem; }
   .quest ul { list-style: none; padding: 0; }
@@ -222,7 +222,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   .quest li::before { content: '–'; position: absolute; left: 0; color: var(--green-dim); }
 
   .lore-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
-  .lore-grid h3 { font-size: 1rem; font-family: var(--font-heading); color: var(--amber); margin-bottom: 0.5rem; }
+  .lore-grid h3 { font-size: 1rem; font-family: var(--font-pixel); color: var(--amber); margin-bottom: 0.5rem; }
 
   @media (max-width: 640px) {
     .identity-grid, .lore-grid { grid-template-columns: 1fr; }
