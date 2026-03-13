@@ -1,0 +1,95 @@
+---
+const links = [
+  { href: '/',         label: 'HOME'     },
+  { href: '/resume',   label: 'RESUME'   },
+  { href: '/projects', label: 'PROJECTS' },
+  { href: '/blog',     label: 'BLOG'     },
+];
+
+const current = Astro.url.pathname;
+---
+
+<header>
+  <nav class="container">
+    <a href="/" class="brand" aria-label="Home">
+      <span class="brand-bracket">&gt;</span> chrisdlg<span class="brand-cursor"></span>
+    </a>
+    <ul role="list">
+      {links.map(({ href, label }) => (
+        <li>
+          <a
+            href={href}
+            class:list={['nav-link', { active: current === href || (href !== '/' && current.startsWith(href)) }]}
+          >
+            [{label}]
+          </a>
+        </li>
+      ))}
+    </ul>
+  </nav>
+</header>
+
+<style>
+  header {
+    border-bottom: 1px solid var(--border);
+    background: var(--bg);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    padding: 0.75rem 0;
+  }
+
+  nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .brand {
+    font-family: var(--font-pixel);
+    font-size: 1.4rem;
+    color: var(--green-bright);
+    text-shadow: var(--glow);
+    text-decoration: none;
+  }
+  .brand:hover { text-decoration: none; text-shadow: var(--glow-strong); }
+
+  .brand-bracket { color: var(--amber); }
+
+  .brand-cursor {
+    display: inline-block;
+    width: 0.5em;
+    height: 0.9em;
+    background: var(--green-bright);
+    vertical-align: middle;
+    margin-left: 2px;
+    animation: blink 1s step-end infinite;
+  }
+
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+  ul {
+    display: flex;
+    list-style: none;
+    gap: 0.25rem;
+    margin: 0;
+    padding: 0;
+  }
+
+  .nav-link {
+    font-family: var(--font-pixel);
+    font-size: 1rem;
+    color: var(--green-dim);
+    padding: 0.2rem 0.4rem;
+    letter-spacing: 0.08em;
+    transition: color 0.15s, text-shadow 0.15s;
+  }
+  .nav-link:hover,
+  .nav-link.active {
+    color: var(--green-bright);
+    text-shadow: var(--glow);
+    text-decoration: none;
+  }
+</style>

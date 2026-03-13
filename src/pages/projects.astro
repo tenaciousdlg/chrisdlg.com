@@ -1,0 +1,82 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const projects = [
+  {
+    name: 'rev-tech',
+    url: 'https://github.com/tenaciousdlg/rev-tech',
+    status: 'ACTIVE',
+    stack: ['terraform', 'kubernetes', 'aws', 'teleport'],
+    description:
+      'Teleport demo infrastructure built on AWS EKS. Includes control plane deployment, 3-tier RBAC model, access request workflows, Slack plugin integration, and self-managed database examples (Postgres, MySQL, MongoDB, Cassandra). Full IaC — repeatable with a single terraform apply.',
+  },
+  {
+    name: 'okta-teleport-scim',
+    url: 'https://github.com/tenaciousdlg/okta',
+    status: 'ACTIVE',
+    stack: ['terraform', 'okta', 'scim', 'saml'],
+    description:
+      'Terraform configuration for managing Okta users, groups, and SAML/SCIM provisioning into Teleport. Group membership in Okta drives Teleport Access List membership automatically — no manual user management required.',
+  },
+  {
+    name: 'app-demo-panel',
+    url: 'https://github.com/tenaciousdlg/app-demo-panel',
+    status: 'ACTIVE',
+    stack: ['python', 'flask', 'teleport', 'jwt'],
+    description:
+      'Flask application that demonstrates Teleport application access. Decodes the Teleport-Jwt-Assertion header and renders the authenticated user\'s identity, roles, and traits in a clean UI. Useful for SE demos showing what downstream apps can consume from Teleport.',
+  },
+  {
+    name: 'teleport_terraform',
+    url: 'https://github.com/tenaciousdlg/teleport_terraform',
+    status: 'ARCHIVE',
+    stack: ['terraform', 'teleport'],
+    description:
+      'Earlier collection of Teleport Terraform examples and patterns. Superseded by rev-tech but kept for reference.',
+  },
+];
+---
+
+<BaseLayout title="Projects" description="Open source projects and infrastructure tools built by Chris De La Garza.">
+  <h1 class="page-title">// QUEST LOG</h1>
+  <p class="dim" style="margin-bottom:2rem;">Open source projects, demo infrastructure, and things I've shipped.</p>
+
+  <ul class="project-list" role="list">
+    {projects.map((p) => (
+      <li class="project-card box">
+        <div class="card-header">
+          <a href={p.url} target="_blank" rel="noopener" class="project-name">{p.name}</a>
+          <span class={`status-badge ${p.status === 'ACTIVE' ? 'active' : 'archive'}`}>{p.status}</span>
+        </div>
+        <div class="tags" style="margin:0.5rem 0;">
+          {p.stack.map((t) => <span class="tag">{t}</span>)}
+        </div>
+        <p class="project-desc">{p.description}</p>
+        <a href={p.url} target="_blank" rel="noopener" class="card-link">view on github &gt;</a>
+      </li>
+    ))}
+  </ul>
+</BaseLayout>
+
+<style>
+  .page-title { font-size: 2rem; margin-bottom: 0.5rem; }
+  .project-list { list-style: none; padding: 0; display: grid; gap: 1.25rem; }
+
+  .project-card { padding: 1.25rem !important; }
+  .card-header  { display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap; margin-bottom: 0.2rem; }
+  .project-name { font-family: var(--font-pixel); font-size: 1.2rem; color: var(--green-bright); letter-spacing: 0.05em; }
+  .project-name:hover { text-shadow: var(--glow-strong); }
+
+  .status-badge {
+    font-family: var(--font-pixel);
+    font-size: 0.75rem;
+    padding: 0.1em 0.5em;
+    letter-spacing: 0.1em;
+    border: 1px solid;
+  }
+  .status-badge.active  { color: var(--green-bright); border-color: var(--green-bright); }
+  .status-badge.archive { color: var(--green-dim);    border-color: var(--green-dim); }
+
+  .project-desc { color: var(--white); font-size: 0.9rem; margin: 0.4rem 0 0.6rem; line-height: 1.6; }
+  .card-link    { font-size: 0.85rem; }
+</style>

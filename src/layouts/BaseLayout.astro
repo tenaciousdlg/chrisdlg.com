@@ -1,0 +1,35 @@
+---
+import '../styles/global.css';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const { title, description = 'Chris De La Garza — Sr. Solutions Engineer. Infrastructure, security, and open source.' } = Astro.props;
+const fullTitle = title === 'Home' ? 'chrisdlg.com' : `${title} // chrisdlg.com`;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <meta name="author" content="Chris De La Garza" />
+    <link rel="canonical" href={Astro.url} />
+    <title>{fullTitle}</title>
+    <!-- Preconnect for Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  </head>
+  <body>
+    <Nav />
+    <main class="container" style="padding-top:2rem; padding-bottom:4rem;">
+      <slot />
+    </main>
+    <Footer />
+  </body>
+</html>

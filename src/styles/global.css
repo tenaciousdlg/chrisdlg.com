@@ -1,0 +1,172 @@
+@import url('https://fonts.googleapis.com/css2?family=VT323&family=Share+Tech+Mono&display=swap');
+
+:root {
+  --bg:            #050805;
+  --bg-2:          #0a0f0a;
+  --bg-3:          #0e140e;
+  --green:         #33cc33;
+  --green-bright:  #00ff41;
+  --green-dim:     #1a7a1a;
+  --amber:         #ff8c00;
+  --red:           #ff3333;
+  --white:         #c8ffc8;
+  --border:        #1a5c1a;
+  --font-pixel:    'VT323', monospace;
+  --font-mono:     'Share Tech Mono', monospace;
+  --glow:          0 0 8px rgba(0, 255, 65, 0.4);
+  --glow-strong:   0 0 12px rgba(0, 255, 65, 0.7);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background-color: var(--bg);
+  color: var(--green);
+  font-family: var(--font-mono);
+  font-size: 15px;
+  line-height: 1.7;
+  min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* CRT scanlines */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 0, 0, 0.06) 2px,
+    rgba(0, 0, 0, 0.06) 4px
+  );
+  pointer-events: none;
+  z-index: 9999;
+}
+
+/* CRT vignette */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(ellipse at center, transparent 55%, rgba(0, 0, 0, 0.55) 100%);
+  pointer-events: none;
+  z-index: 9998;
+}
+
+a { color: var(--green-bright); text-decoration: none; transition: text-shadow 0.2s; }
+a:hover { text-shadow: var(--glow-strong); text-decoration: underline; }
+
+h1, h2, h3, h4, h5 {
+  font-family: var(--font-pixel);
+  color: var(--green-bright);
+  text-shadow: var(--glow);
+  letter-spacing: 0.06em;
+  line-height: 1.2;
+}
+
+p { margin-bottom: 1rem; }
+ul, ol { margin-left: 1.5rem; margin-bottom: 1rem; }
+li { margin-bottom: 0.25rem; }
+
+.container {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+/* ── Terminal box ─────────────────────────── */
+.box {
+  border: 1px solid var(--border);
+  background: var(--bg-2);
+  padding: 1.5rem;
+  position: relative;
+  margin-bottom: 1.5rem;
+}
+.box[data-title]::before {
+  content: '[ ' attr(data-title) ' ]';
+  position: absolute;
+  top: -0.65em;
+  left: 1em;
+  background: var(--bg);
+  padding: 0 0.4em;
+  color: var(--green-bright);
+  font-family: var(--font-pixel);
+  font-size: 1rem;
+  letter-spacing: 0.12em;
+}
+
+/* ── Blinking cursor ──────────────────────── */
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+.cursor {
+  display: inline-block;
+  width: 0.55em;
+  height: 1.1em;
+  background: var(--green-bright);
+  vertical-align: middle;
+  margin-left: 2px;
+  animation: blink 1s step-end infinite;
+}
+
+/* ── Subtle glitch on headings ────────────── */
+@keyframes glitch {
+  0%,90%,100%  { text-shadow: var(--glow); transform: none; }
+  91%  { text-shadow: 2px 0 0 rgba(255,0,80,0.4), -2px 0 0 rgba(0,255,200,0.3); transform: translateX(2px); }
+  93%  { text-shadow: -2px 0 0 rgba(255,0,80,0.4), 2px 0 0 rgba(0,255,200,0.3); transform: translateX(-2px); }
+  95%  { text-shadow: var(--glow); transform: translateX(1px); }
+}
+.glitch { animation: glitch 6s ease-in-out infinite; }
+
+/* ── Skill bar ────────────────────────────── */
+.skill-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.4rem;
+  font-size: 0.9rem;
+}
+.skill-bar .label { min-width: 200px; color: var(--white); }
+.skill-bar .track {
+  flex: 1;
+  height: 10px;
+  background: var(--bg-3);
+  border: 1px solid var(--border);
+  position: relative;
+  overflow: hidden;
+}
+.skill-bar .fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--green-dim), var(--green-bright));
+  box-shadow: 0 0 6px var(--green-bright);
+  transition: width 1s ease;
+}
+
+/* ── Tag pills ────────────────────────────── */
+.tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin: 0.5rem 0; }
+.tag {
+  font-family: var(--font-pixel);
+  font-size: 0.85rem;
+  color: var(--amber);
+  border: 1px solid var(--amber);
+  padding: 0 0.45em;
+  letter-spacing: 0.08em;
+  opacity: 0.85;
+}
+
+/* ── Amber highlight ──────────────────────── */
+.amber { color: var(--amber); }
+.dim   { color: var(--green-dim); }
+.bright{ color: var(--green-bright); }
+
+/* ── Selection ────────────────────────────── */
+::selection { background: var(--green-dim); color: var(--green-bright); }
+
+/* ── Responsive ───────────────────────────── */
+@media (max-width: 600px) {
+  body { font-size: 14px; }
+  .skill-bar .label { min-width: 140px; font-size: 0.8rem; }
+}

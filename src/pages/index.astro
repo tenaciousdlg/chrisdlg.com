@@ -1,0 +1,161 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getCollection, type CollectionEntry } from 'astro:content';
+
+const posts = (await getCollection('blog', ({ data }: CollectionEntry<'blog'>) => !data.draft))
+  .sort((a: CollectionEntry<'blog'>, b: CollectionEntry<'blog'>) => b.data.date.getTime() - a.data.date.getTime())
+  .slice(0, 3);
+---
+
+<BaseLayout title="Home">
+  <section class="hero">
+    <pre class="ascii-art" aria-hidden="true">{`
+  ██████╗██╗  ██╗██████╗ ██╗███████╗    ██████╗ ██╗      ██████╗
+ ██╔════╝██║  ██║██╔══██╗██║██╔════╝    ██╔══██╗██║     ██╔════╝
+ ██║     ███████║██████╔╝██║███████╗    ██║  ██║██║     ██║  ███╗
+ ██║     ██╔══██║██╔══██╗██║╚════██║    ██║  ██║██║     ██║   ██║
+ ╚██████╗██║  ██║██║  ██║██║███████║    ██████╔╝███████╗╚██████╔╝
+  ╚═════╝╚═╝  ╚═╝╚═╝  ╚═╝╚═╝╚══════╝   ╚═════╝ ╚══════╝ ╚═════╝ `}</pre>
+
+    <div id="boot" class="boot-terminal" aria-live="polite"></div>
+  </section>
+
+  <section class="quick-links box" data-title="NAVIGATION">
+    <div class="link-grid">
+      <a href="/resume" class="quick-link">
+        <span class="icon">[ ♦ ]</span>
+        <span class="ql-label">CHARACTER SHEET</span>
+        <span class="ql-sub">resume &amp; skills</span>
+      </a>
+      <a href="/projects" class="quick-link">
+        <span class="icon">[ ◈ ]</span>
+        <span class="ql-label">QUEST LOG</span>
+        <span class="ql-sub">open source projects</span>
+      </a>
+      <a href="/blog" class="quick-link">
+        <span class="icon">[ ✦ ]</span>
+        <span class="ql-label">FIELD NOTES</span>
+        <span class="ql-sub">technical writing</span>
+      </a>
+    </div>
+  </section>
+
+  {posts.length > 0 && (
+    <section>
+      <h2 style="margin-bottom:1rem;">// RECENT FIELD NOTES</h2>
+      <ul class="post-list" role="list">
+        {posts.map((post: CollectionEntry<'blog'>) => (
+          <li class="post-item">
+            <span class="post-date dim">{post.data.date.toISOString().slice(0, 10)}</span>
+            <span class="post-sep amber"> &gt; </span>
+            <a href={`/blog/${post.id}`}>{post.data.title}</a>
+            {post.data.tags.length > 0 && (
+              <span class="tags">
+                {post.data.tags.map((t: string) => <span class="tag">{t}</span>)}
+              </span>
+            )}
+          </li>
+        ))}
+      </ul>
+      <p style="margin-top:1rem;"><a href="/blog">view all posts &gt;</a></p>
+    </section>
+  )}
+</BaseLayout>
+
+<script>
+  const lines = [
+    '> INITIALIZING chrisdlg.com...',
+    '> LOADING PLAYER PROFILE...',
+    '> CLASS.......... Senior Solutions Engineer',
+    '> GUILD.......... Teleport',
+    '> LOCATION....... Austin, TX',
+    '> SPECIALIZATION. Infrastructure · Security · Pre-Sales',
+    '> ACTIVE QUEST... Securing distributed infrastructure at scale',
+    '> STATUS......... ONLINE',
+    '> _',
+  ];
+
+  const el = document.getElementById('boot');
+  if (el) {
+    let lineIdx = 0;
+    let charIdx = 0;
+    let output = '';
+
+    function tick() {
+      if (lineIdx >= lines.length) {
+        el!.innerHTML = output.replace(/\n_$/, '\n') + '<span class="cursor"></span>';
+        return;
+      }
+      const line = lines[lineIdx]!;
+      if (charIdx < line.length) {
+        output += line[charIdx];
+        el!.textContent = output;
+        charIdx++;
+        setTimeout(tick, charIdx === 1 && lineIdx > 0 ? 40 : 18);
+      } else {
+        output += '\n';
+        charIdx = 0;
+        lineIdx++;
+        setTimeout(tick, lineIdx === lines.length ? 0 : 60);
+      }
+    }
+    setTimeout(tick, 400);
+  }
+</script>
+
+<style>
+  .hero { margin-bottom: 2.5rem; }
+
+  .ascii-art {
+    font-family: var(--font-mono);
+    font-size: clamp(5px, 1.1vw, 11px);
+    color: var(--green-bright);
+    text-shadow: var(--glow);
+    line-height: 1.15;
+    overflow-x: auto;
+    margin-bottom: 1.5rem;
+    white-space: pre;
+  }
+
+  .boot-terminal {
+    font-family: var(--font-mono);
+    font-size: 0.95rem;
+    color: var(--green);
+    white-space: pre-line;
+    min-height: 12em;
+    border-left: 2px solid var(--green-dim);
+    padding-left: 1rem;
+  }
+
+  .link-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+  }
+
+  .quick-link {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    padding: 1rem;
+    border: 1px solid var(--border);
+    background: var(--bg);
+    transition: border-color 0.2s, background 0.2s;
+    text-decoration: none;
+  }
+  .quick-link:hover {
+    border-color: var(--green-bright);
+    background: var(--bg-3);
+    text-decoration: none;
+    box-shadow: inset 0 0 12px rgba(0,255,65,0.05);
+  }
+
+  .icon      { font-family: var(--font-pixel); font-size: 1.2rem; color: var(--amber); }
+  .ql-label  { font-family: var(--font-pixel); font-size: 1.1rem; color: var(--green-bright); letter-spacing: 0.06em; }
+  .ql-sub    { font-size: 0.82rem; color: var(--green-dim); }
+
+  .post-list { list-style: none; padding: 0; margin: 0; }
+  .post-item { padding: 0.4rem 0; border-bottom: 1px solid var(--bg-3); display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.4rem; }
+  .post-date { font-size: 0.85rem; }
+  .post-sep  { font-family: var(--font-pixel); }
+</style>

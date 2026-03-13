@@ -1,0 +1,59 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection, type CollectionEntry } from 'astro:content';
+
+const posts = (await getCollection('blog', ({ data }: CollectionEntry<'blog'>) => !data.draft))
+  .sort((a: CollectionEntry<'blog'>, b: CollectionEntry<'blog'>) => b.data.date.getTime() - a.data.date.getTime());
+
+// Collect all unique tags
+const allTags = [...new Set(posts.flatMap((p: CollectionEntry<'blog'>) => p.data.tags))].sort();
+---
+
+<BaseLayout title="Blog" description="Field notes on infrastructure, security, and the tools in between.">
+  <h1 class="page-title">// FIELD NOTES</h1>
+  <p class="dim" style="margin-bottom:2rem;">Technical writing on infrastructure, security tooling, and things I've built.</p>
+
+  {allTags.length > 0 && (
+    <div class="tags" style="margin-bottom:1.5rem;">
+      {allTags.map((tag: string) => <span class="tag">{tag}</span>)}
+    </div>
+  )}
+
+  {posts.length === 0 ? (
+    <p class="dim">No posts yet. Check back soon.</p>
+  ) : (
+    <ul class="post-list" role="list">
+      {posts.map((post: CollectionEntry<'blog'>) => (
+        <li class="post-item box">
+          <div class="post-meta">
+            <time class="dim" datetime={post.data.date.toISOString()}>
+              {post.data.date.toISOString().slice(0, 10)}
+            </time>
+            {post.data.tags.length > 0 && (
+              <span class="tags">
+                {post.data.tags.map((t: string) => <span class="tag">{t}</span>)}
+              </span>
+            )}
+          </div>
+          <h2 class="post-title">
+            <a href={`/blog/${post.id}`}>{post.data.title}</a>
+          </h2>
+          <p class="post-desc">{post.data.description}</p>
+          <a href={`/blog/${post.id}`} class="read-more">read more &gt;</a>
+        </li>
+      ))}
+    </ul>
+  )}
+</BaseLayout>
+
+<style>
+  .page-title { font-size: 2rem; margin-bottom: 0.5rem; }
+  .post-list { list-style: none; padding: 0; }
+  .post-item { padding: 1.25rem !important; }
+  .post-meta { display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center; margin-bottom: 0.4rem; font-size: 0.85rem; }
+  .post-title { font-size: 1.4rem; margin-bottom: 0.4rem; }
+  .post-title a { color: var(--green-bright); }
+  .post-title a:hover { text-shadow: var(--glow-strong); }
+  .post-desc { color: var(--white); margin-bottom: 0.6rem; font-size: 0.92rem; }
+  .read-more { font-size: 0.85rem; }
+</style>

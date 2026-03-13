@@ -1,0 +1,33 @@
+---
+const year = new Date().getFullYear();
+---
+
+<footer>
+  <div class="container">
+    <div class="line">
+      <span class="dim">// built on Cloudflare Workers + Astro</span>
+    </div>
+    <div class="links">
+      <a href="mailto:chris@chrisdlg.com">chris@chrisdlg.com</a>
+      <span class="dim">|</span>
+      <a href="https://linkedin.com/in/cdlg" target="_blank" rel="noopener">linkedin</a>
+      <span class="dim">|</span>
+      <a href="https://github.com/tenaciousdlg" target="_blank" rel="noopener">github</a>
+    </div>
+    <div class="copyright dim">
+      &copy; {year} Chris De La Garza &nbsp;// &nbsp;chrisdlg.com
+    </div>
+  </div>
+</footer>
+
+<style>
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 1.5rem 0;
+    font-size: 0.85rem;
+    margin-top: 2rem;
+  }
+  .line   { margin-bottom: 0.3rem; }
+  .links  { display: flex; gap: 0.6rem; align-items: center; margin-bottom: 0.3rem; flex-wrap: wrap; }
+  .copyright { font-size: 0.8rem; }
+</style>

@@ -1,0 +1,231 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="Resume" description="Chris De La Garza — Senior Solutions Engineer. Infrastructure, security, cloud, and pre-sales.">
+  <h1 class="glitch page-title">// CHARACTER SHEET</h1>
+
+  <!-- Identity block -->
+  <div class="box" data-title="IDENTITY">
+    <div class="identity-grid">
+      <div>
+        <div class="field"><span class="label">NAME</span><span class="value">Chris De La Garza</span></div>
+        <div class="field"><span class="label">CLASS</span><span class="value amber">Senior Solutions Engineer</span></div>
+        <div class="field"><span class="label">GUILD</span><span class="value">Teleport</span></div>
+        <div class="field"><span class="label">LOCATION</span><span class="value">Austin, TX</span></div>
+      </div>
+      <div>
+        <div class="field"><span class="label">CONTACT</span><a href="mailto:chris@chrisdlg.com">chris@chrisdlg.com</a></div>
+        <div class="field"><span class="label">LINKEDIN</span><a href="https://linkedin.com/in/cdlg" target="_blank" rel="noopener">linkedin.com/in/cdlg</a></div>
+        <div class="field"><span class="label">GITHUB</span><a href="https://github.com/tenaciousdlg" target="_blank" rel="noopener">tenaciousdlg</a></div>
+        <div class="field"><span class="label">HONORS</span><span class="value amber">SE of the Year FY25</span></div>
+      </div>
+    </div>
+    <div class="summary">
+      <p>
+        Infrastructure engineer turned solutions engineer — a decade of building, breaking, and securing systems
+        across bare metal, cloud, and Kubernetes. Specializes in translating complex technical architecture into
+        clear business outcomes during pre-sales engagements. Track record of building repeatable demo and
+        enablement systems that outlast the engagement.
+      </p>
+    </div>
+  </div>
+
+  <!-- Core stats -->
+  <div class="box" data-title="CORE STATS">
+    <div class="skill-bar"><span class="label">Pre-Sales / Solutions Engineering</span><div class="track"><div class="fill" style="width:95%"></div></div><span class="pct">95</span></div>
+    <div class="skill-bar"><span class="label">Infrastructure as Code (Terraform)</span><div class="track"><div class="fill" style="width:92%"></div></div><span class="pct">92</span></div>
+    <div class="skill-bar"><span class="label">Linux Systems Administration</span><div class="track"><div class="fill" style="width:90%"></div></div><span class="pct">90</span></div>
+    <div class="skill-bar"><span class="label">Kubernetes / Container Orchestration</span><div class="track"><div class="fill" style="width:85%"></div></div><span class="pct">85</span></div>
+    <div class="skill-bar"><span class="label">Cloud Platforms (AWS / GCP / Azure)</span><div class="track"><div class="fill" style="width:83%"></div></div><span class="pct">83</span></div>
+    <div class="skill-bar"><span class="label">Network Security / Zero Trust</span><div class="track"><div class="fill" style="width:88%"></div></div><span class="pct">88</span></div>
+    <div class="skill-bar"><span class="label">Bash / Shell Scripting</span><div class="track"><div class="fill" style="width:87%"></div></div><span class="pct">87</span></div>
+    <div class="skill-bar"><span class="label">Technical Enablement &amp; Training</span><div class="track"><div class="fill" style="width:90%"></div></div><span class="pct">90</span></div>
+  </div>
+
+  <!-- Tech stack -->
+  <div class="box" data-title="EQUIPMENT / TECH STACK">
+    <div class="stack-grid">
+      <div class="stack-group">
+        <h3>Infrastructure</h3>
+        <ul>
+          <li>Terraform / OpenTofu</li>
+          <li>Ansible</li>
+          <li>Docker / Docker Compose</li>
+          <li>Kubernetes (EKS, GKE, AKS)</li>
+          <li>Cloudflare Tunnels</li>
+        </ul>
+      </div>
+      <div class="stack-group">
+        <h3>Cloud &amp; Networking</h3>
+        <ul>
+          <li>AWS (EC2, EKS, IAM, VPC, S3)</li>
+          <li>GCP / Azure</li>
+          <li>Cloudflare (CDN, WAF, Workers, Zero Trust)</li>
+          <li>DNS, SSL/TLS, BGP basics</li>
+        </ul>
+      </div>
+      <div class="stack-group">
+        <h3>Security &amp; Identity</h3>
+        <ul>
+          <li>Teleport (PAM / Zero Trust)</li>
+          <li>Okta (SAML, SCIM, SSO)</li>
+          <li>mTLS, PKI, certificate management</li>
+          <li>RBAC / access request workflows</li>
+        </ul>
+      </div>
+      <div class="stack-group">
+        <h3>Databases &amp; Apps</h3>
+        <ul>
+          <li>PostgreSQL, MySQL / MariaDB</li>
+          <li>MongoDB, Cassandra</li>
+          <li>NGINX, Apache</li>
+          <li>Python (Flask), Bash</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Quest Log -->
+  <div class="box" data-title="QUEST LOG / EXPERIENCE">
+
+    <div class="quest">
+      <div class="quest-header">
+        <span class="quest-company amber">Teleport</span>
+        <span class="quest-role">Senior Solutions Engineer</span>
+        <span class="quest-date dim">Sep 2023 – Present</span>
+      </div>
+      <ul>
+        <li>Drive proof-of-value deployments for enterprise prospects across AWS, GCP, Azure, and on-prem environments</li>
+        <li>Named <strong class="amber">Solutions Engineer of the Year FY25</strong> — recognized for technical depth and customer impact</li>
+        <li>Build and maintain a <a href="https://github.com/tenaciousdlg/rev-tech">Terraform-based demo environment</a> (EKS, RBAC, SCIM, access request workflows) that serves as a repeatable sales asset for the pre-sales team</li>
+        <li>Designed a 3-tier RBAC model integrating Okta group membership → Teleport Access Lists via SCIM, eliminating manual user management across the demo environment</li>
+        <li>Deliver product demonstrations covering SSH, RDP, Kubernetes, database access, and machine identity across complex customer environments</li>
+        <li>Mentor and support junior SEs on technical architecture and demo delivery</li>
+      </ul>
+    </div>
+
+    <div class="quest">
+      <div class="quest-header">
+        <span class="quest-company amber">Cloudflare</span>
+        <span class="quest-role">Solutions Engineer – Strategic Accounts</span>
+        <span class="quest-date dim">Feb 2022 – Sep 2023</span>
+      </div>
+      <ul>
+        <li>Technical lead for Central and West Field/Strategic teams supporting Fortune 500 accounts</li>
+        <li>North America SME for API Shield, Cloudflare Tunnel, Docker, and Terraform</li>
+        <li>Built new-hire training program that reduced SE onboarding time from <strong>9 months to 90 days</strong></li>
+        <li>Created Terraform examples and reusable templates for Cloudflare Tunnels deployment at scale (Terraform + Ansible + Docker)</li>
+        <li>Assisted with team interviews and organizational structure for Strategic SE team buildout</li>
+      </ul>
+    </div>
+
+    <div class="quest">
+      <div class="quest-header">
+        <span class="quest-company amber">NGINX, Inc.</span>
+        <span class="quest-role">Solutions Engineer III</span>
+        <span class="quest-date dim">Jun 2021 – Dec 2021</span>
+      </div>
+      <ul>
+        <li>Collaborated directly with core engineering and product on feature direction for financial and public sector clients</li>
+        <li>Designed hybrid bare-metal-to-cloud solutions involving Kubernetes microservices architecture</li>
+        <li>Co-facilitated NGINX Sprint API management workshop including development, testing, and delivery</li>
+      </ul>
+    </div>
+
+    <div class="quest">
+      <div class="quest-header">
+        <span class="quest-company amber">Cloudflare, Inc.</span>
+        <span class="quest-role">Solutions Engineer</span>
+        <span class="quest-date dim">Apr 2019 – May 2021</span>
+      </div>
+      <ul>
+        <li>Technical sales expert across the full Cloudflare product surface: CDN, DNS, WAF, Bot Management, Workers, Zero Trust</li>
+        <li>Founding member of Austin Mid-Market SE team; helped create team SOPs and cultural foundation</li>
+        <li>Technical lead supporting up to 15 Account Executives</li>
+        <li>Developed reproducible demos via Terraform/shell scripting/Docker that became standardized tooling for the SE org</li>
+        <li>Led SE booth and back-end demo infrastructure at Cloudflare Connect Conference 2019</li>
+      </ul>
+    </div>
+
+    <div class="quest">
+      <div class="quest-header">
+        <span class="quest-company amber">Rackspace</span>
+        <span class="quest-role">Linux System Engineer II → I → Support</span>
+        <span class="quest-date dim">Oct 2015 – Apr 2019</span>
+      </div>
+      <ul>
+        <li>Managed Linux systems (RHEL/Debian) for dedicated and cloud customers: Apache, MySQL, PHP, DNS, SSH</li>
+        <li>Progressed from L1 support through Linux Sys Engineer II in ~3.5 years</li>
+        <li>Implemented automation to reduce repetitive escalation work; mentored junior technicians</li>
+        <li>Supported environments ranging from single LAMP stacks to large enterprise AWS/Azure/VMware deployments</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Education & Certs -->
+  <div class="box" data-title="LORE / EDUCATION &amp; CERTIFICATIONS">
+    <div class="lore-grid">
+      <div>
+        <h3>Education</h3>
+        <p><strong class="bright">Texas A&amp;M University – Corpus Christi</strong></p>
+        <p>B.B.A., Bachelor of Business Administration &nbsp;· 2011–2014</p>
+        <p class="dim">Dean's List: Spring 2013, Spring 2014</p>
+      </div>
+      <div>
+        <h3>Certifications</h3>
+        <ul>
+          <li>Great Demo! Practitioner</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .page-title { font-size: 2rem; margin-bottom: 1.5rem; }
+
+  .identity-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.5rem 2rem;
+    margin-bottom: 1rem;
+  }
+  .field { display: flex; gap: 0.75rem; margin-bottom: 0.25rem; flex-wrap: wrap; }
+  .label { min-width: 90px; color: var(--green-dim); font-size: 0.85rem; flex-shrink: 0; }
+  .value { color: var(--white); }
+  .summary { border-top: 1px solid var(--border); padding-top: 1rem; color: var(--white); }
+
+  .skill-bar { display:flex; align-items:center; gap:0.75rem; margin-bottom:0.5rem; }
+  .skill-bar .label { min-width:280px; color:var(--white); font-size:0.88rem; flex-shrink:0; }
+  .skill-bar .track { flex:1; height:10px; background:var(--bg-3); border:1px solid var(--border); overflow:hidden; }
+  .skill-bar .fill  { height:100%; background:linear-gradient(90deg,var(--green-dim),var(--green-bright)); box-shadow:0 0 6px var(--green-bright); }
+  .skill-bar .pct   { min-width:2.5em; text-align:right; font-size:0.82rem; color:var(--green-dim); }
+
+  .stack-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+  }
+  .stack-group h3 { font-size: 1rem; margin-bottom: 0.5rem; color: var(--amber); font-family: var(--font-pixel); }
+  .stack-group ul { list-style: none; padding: 0; }
+  .stack-group li::before { content: '> '; color: var(--green-dim); }
+
+  .quest { margin-bottom: 1.75rem; padding-bottom: 1.75rem; border-bottom: 1px solid var(--bg-3); }
+  .quest:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+  .quest-header { display: flex; flex-wrap: wrap; gap: 0.5rem 1rem; align-items: baseline; margin-bottom: 0.6rem; }
+  .quest-company { font-family: var(--font-pixel); font-size: 1.1rem; letter-spacing: 0.06em; }
+  .quest-role { color: var(--white); }
+  .quest-date { font-size: 0.85rem; }
+  .quest ul { list-style: none; padding: 0; }
+  .quest li { padding-left: 1.2rem; position: relative; margin-bottom: 0.3rem; color: var(--green); }
+  .quest li::before { content: '–'; position: absolute; left: 0; color: var(--green-dim); }
+
+  .lore-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+  .lore-grid h3 { font-size: 1rem; font-family: var(--font-pixel); color: var(--amber); margin-bottom: 0.5rem; }
+
+  @media (max-width: 640px) {
+    .identity-grid, .lore-grid { grid-template-columns: 1fr; }
+    .skill-bar .label { min-width: 160px; font-size: 0.8rem; }
+  }
+</style>
