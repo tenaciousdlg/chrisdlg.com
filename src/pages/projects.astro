@@ -3,20 +3,20 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
 const projects = [
   {
-    name: 'rev-tech',
-    url: 'https://github.com/tenaciousdlg/rev-tech',
+    name: 'teleport_terraform',
+    url: 'https://github.com/tenaciousdlg/teleport_terraform',
     status: 'ACTIVE',
-    stack: ['terraform', 'kubernetes', 'aws', 'teleport'],
+    stack: ['terraform', 'teleport'],
     description:
-      'Teleport demo infrastructure built on AWS EKS. Includes control plane deployment, 3-tier RBAC model, access request workflows, Slack plugin integration, and self-managed database examples (Postgres, MySQL, MongoDB, Cassandra). Full IaC — repeatable with a single terraform apply.',
+      'Collection of Teleport Terraform examples and patterns. Superseded by rev-tech at https://github.com/gravitational/rev-tech/tree/main/templates/teleport-terraform but kept for reference.',
   },
   {
-    name: 'okta-teleport-scim',
-    url: 'https://github.com/tenaciousdlg/okta',
-    status: 'ACTIVE',
-    stack: ['terraform', 'okta', 'scim', 'saml'],
+    name: 'cloudflare_terraform',
+    url: 'https://github.com/tenaciousdlg/cloudflare_terraform',
+    status: 'ARCHIVE',
+    stack: ['terraform', 'cloudflare'],
     description:
-      'Terraform configuration for managing Okta users, groups, and SAML/SCIM provisioning into Teleport. Group membership in Okta drives Teleport Access List membership automatically — no manual user management required.',
+      'Earlier collection of Cloudflare Terraform examples and patterns.',
   },
   {
     name: 'app-demo-panel',
@@ -25,14 +25,6 @@ const projects = [
     stack: ['python', 'flask', 'teleport', 'jwt'],
     description:
       'Flask application that demonstrates Teleport application access. Decodes the Teleport-Jwt-Assertion header and renders the authenticated user\'s identity, roles, and traits in a clean UI. Useful for SE demos showing what downstream apps can consume from Teleport.',
-  },
-  {
-    name: 'teleport_terraform',
-    url: 'https://github.com/tenaciousdlg/teleport_terraform',
-    status: 'ARCHIVE',
-    stack: ['terraform', 'teleport'],
-    description:
-      'Earlier collection of Teleport Terraform examples and patterns. Superseded by rev-tech but kept for reference.',
   },
 ];
 ---

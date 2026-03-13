@@ -6,10 +6,13 @@ import Footer from '../components/Footer.astro';
 interface Props {
   title: string;
   description?: string;
+  ogImage?: string;
 }
 
-const { title, description = 'Chris De La Garza — Sr. Solutions Engineer. Infrastructure, security, and open source.' } = Astro.props;
+const { title, description = 'Chris De La Garza — Sr. Solutions Engineer. Infrastructure, security, and open source.', ogImage = '/avatar.png' } = Astro.props;
 const fullTitle = title === 'Home' ? 'chrisdlg.com' : `${title} // chrisdlg.com`;
+const canonicalURL = Astro.url;
+const ogImageURL = new URL(ogImage, Astro.site ?? Astro.url).toString();
 ---
 
 <!doctype html>
@@ -19,17 +22,183 @@ const fullTitle = title === 'Home' ? 'chrisdlg.com' : `${title} // chrisdlg.com`
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
     <meta name="author" content="Chris De La Garza" />
-    <link rel="canonical" href={Astro.url} />
+    <link rel="canonical" href={canonicalURL} />
     <title>{fullTitle}</title>
-    <!-- Preconnect for Google Fonts -->
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogImageURL} />
+    <!-- Twitter / X -->
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImageURL} />
+    <link rel="icon" type="image/png" href="/favicon.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   </head>
   <body>
     <Nav />
-    <main class="container" style="padding-top:2rem; padding-bottom:4rem;">
+    <main class="container" style="padding-top:2rem; padding-bottom:4rem; position:relative; z-index:2;">
       <slot />
     </main>
     <Footer />
+    <canvas id="game-strip" style="position:fixed;bottom:0;left:0;width:100%;height:150px;z-index:1;pointer-events:none;"></canvas>
   </body>
 </html>
+
+<script>
+(function () {
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  const canvas = document.getElementById('game-strip') as HTMLCanvasElement;
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d')!;
+
+  const STRIP_H  = 150;
+  const GROUND   = STRIP_H - 16;
+  const BG       = '#0b0912';
+
+  // Hero (me.png):  drink walk cycle — 112px cols, y=620, h=404, frames 8-11
+  // Dog  (dog.png): walk cycle      — 224px cols, y=768, h=256, frames 3-6
+  const HERO_FW    = 112;
+  const DOG_FW     = 224;
+  const HERO_SRC_Y = 620;
+  const HERO_SRC_H = 404;
+  const DOG_SRC_Y  = 768;
+  const DOG_SRC_H  = 256;
+
+  const HERO_FRAMES = [8, 9, 10, 11];
+  const DOG_FRAMES  = [3, 4, 5, 6];
+
+  const HERO_DISP_H = 110;
+  const DOG_DISP_H  = 75;
+
+  const FRAME_MS   = 250;
+  const WALK_SPEED = 0.6;
+
+  function resize() { canvas.width = window.innerWidth; canvas.height = STRIP_H; }
+  resize();
+  window.addEventListener('resize', resize, { passive: true });
+
+  function loadImg(src: string): Promise<HTMLImageElement | null> {
+    return new Promise(r => {
+      const img = new Image();
+      img.onload = () => r(img);
+      img.onerror = () => r(null);
+      img.src = src;
+    });
+  }
+
+  const PIXEL_H   = 40;
+  const offscreen = document.createElement('canvas');
+  const offCtx    = offscreen.getContext('2d')!;
+
+  function drawFrame(
+    sheet: HTMLImageElement,
+    frameIdx: number, srcY: number, srcH: number,
+    dx: number, dy: number, dispH: number,
+    flipX: boolean, fw: number
+  ) {
+    const sx    = frameIdx * fw;
+    const dispW = dispH * (fw / srcH);
+    const pxW   = Math.max(1, Math.round(PIXEL_H * (fw / srcH)));
+
+    offscreen.width  = pxW;
+    offscreen.height = PIXEL_H;
+    offCtx.clearRect(0, 0, pxW, PIXEL_H);
+    offCtx.imageSmoothingEnabled = false;
+    offCtx.drawImage(sheet, sx, srcY, fw, srcH, 0, 0, pxW, PIXEL_H);
+
+    ctx.save();
+    ctx.imageSmoothingEnabled = false;
+    if (flipX) {
+      ctx.translate(dx + dispW, 0);
+      ctx.scale(-1, 1);
+      ctx.drawImage(offscreen, 0, dy, dispW, dispH);
+    } else {
+      ctx.drawImage(offscreen, dx, dy, dispW, dispH);
+    }
+    ctx.restore();
+    return dispW;
+  }
+
+  Promise.all([
+    loadImg('/sprites/me.png'),
+    loadImg('/sprites/dog.png'),
+  ]).then(([heroSheet, dogSheet]) => {
+    if (!heroSheet || !dogSheet) return;
+    const hero = heroSheet as HTMLImageElement;
+    const dog  = dogSheet  as HTMLImageElement;
+
+    let heroFrame   = 0;
+    let heroFrameTs = 0;
+    let dogFrame    = 0;
+    let dogFrameTs  = 0;
+
+    const heroDispW = HERO_DISP_H * (HERO_FW / HERO_SRC_H);
+    const dogDispW  = DOG_DISP_H  * (DOG_FW  / DOG_SRC_H);
+    const duoWidth  = heroDispW + 6 + dogDispW;
+    let walkX = -duoWidth;
+
+    let paused = false;
+    document.addEventListener('visibilitychange', () => { paused = document.hidden; });
+
+    function draw(ts: number) {
+      if (paused) { requestAnimationFrame(draw); return; }
+
+      const W = canvas.width;
+      ctx.clearRect(0, 0, W, STRIP_H);
+
+      ctx.fillStyle = BG;
+      ctx.fillRect(0, 0, W, STRIP_H);
+
+      ctx.fillStyle = 'rgba(200,144,42,0.022)';
+      for (let y = 0; y < STRIP_H; y += 3) ctx.fillRect(0, y, W, 1);
+
+      ctx.strokeStyle = 'rgba(200,144,42,0.38)';
+      ctx.lineWidth = 1;
+      ctx.setLineDash([3, 4]);
+      ctx.beginPath(); ctx.moveTo(0, GROUND + 2); ctx.lineTo(W, GROUND + 2); ctx.stroke();
+      ctx.setLineDash([]);
+
+      walkX += WALK_SPEED;
+      if (walkX > W + 20) walkX = -duoWidth;
+
+      if (ts - heroFrameTs > FRAME_MS) {
+        heroFrame = (heroFrame + 1) % HERO_FRAMES.length;
+        heroFrameTs = ts;
+      }
+      const drawnHeroW = drawFrame(
+        hero,
+        HERO_FRAMES[heroFrame], HERO_SRC_Y, HERO_SRC_H,
+        walkX, GROUND - HERO_DISP_H, HERO_DISP_H,
+        true, HERO_FW
+      );
+
+      if (ts - dogFrameTs > FRAME_MS) {
+        dogFrame = (dogFrame + 1) % DOG_FRAMES.length;
+        dogFrameTs = ts;
+      }
+      drawFrame(
+        dog,
+        DOG_FRAMES[dogFrame], DOG_SRC_Y, DOG_SRC_H,
+        walkX + drawnHeroW + 6, GROUND - DOG_DISP_H, DOG_DISP_H,
+        false, DOG_FW
+      );
+
+      const grad = ctx.createLinearGradient(0, 0, 0, 52);
+      grad.addColorStop(0, BG);
+      grad.addColorStop(1, 'rgba(11,9,18,0)');
+      ctx.fillStyle = grad;
+      ctx.fillRect(0, 0, W, 52);
+
+      requestAnimationFrame(draw);
+    }
+
+    requestAnimationFrame(draw);
+  });
+})();
+</script>

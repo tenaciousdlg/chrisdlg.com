@@ -1,0 +1,92 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const pieces = [
+  { src: '/doodles/logo.png',           title: 'Logo' },
+  { src: '/doodles/you_and_i.JPG',      title: 'You & I' },
+  { src: '/doodles/three_amigos.png',   title: 'Three Amigos' },
+  { src: '/doodles/hello_whale.PNG',    title: 'Hello Whale' },
+  { src: '/doodles/floating.PNG',       title: 'Float' },
+  { src: '/doodles/ah_1.PNG',           title: 'AH!' },
+  { src: '/doodles/ah_2.PNG',           title: 'AH! (sketch)' },
+  { src: '/doodles/hi.png',             title: 'Hi' },
+  { src: '/doodles/smile.png',          title: 'Smile' },
+  { src: '/doodles/self_drawing.png',   title: 'Self Portrait' },
+  { src: '/doodles/archie_1.JPG',       title: 'Archie' },
+  { src: '/doodles/pomeranian.jpeg',    title: 'Pomeranian' },
+  { src: '/doodles/scribble.png',       title: 'Scribble' },
+  { src: '/doodles/signature.png',      title: 'Signature' },
+];
+---
+
+<BaseLayout title="Sketchbook" description="iPad doodles by Chris De La Garza — creatures, portraits, and whatever else happens on long flights.">
+  <h1 class="glitch page-title">// SKETCHBOOK</h1>
+  <p class="intro dim">iPad doodles. Mostly on flights.</p>
+
+  <div class="gallery" id="gallery">
+    {pieces.map(p => (
+      <figure class="piece">
+        <div class="piece-img-wrap">
+          <img src={p.src} alt={p.title} loading="lazy" draggable="false" />
+          <div class="piece-shield" aria-hidden="true"></div>
+        </div>
+        <figcaption>{p.title}</figcaption>
+      </figure>
+    ))}
+  </div>
+</BaseLayout>
+
+<style>
+  .page-title { font-size: 2rem; margin-bottom: 0.5rem; }
+  .intro { margin-bottom: 2rem; font-size: 0.9rem; }
+
+  .gallery {
+    columns: 2 320px;
+    column-gap: 1rem;
+  }
+
+  .piece {
+    break-inside: avoid;
+    margin: 0 0 1rem;
+    border: 1px solid var(--border);
+    background: var(--bg-2);
+    transition: border-color 0.2s;
+  }
+
+  .piece:hover {
+    border-color: var(--amber);
+  }
+
+  .piece-img-wrap {
+    position: relative;
+    line-height: 0;
+  }
+
+  .piece img {
+    width: 100%;
+    height: auto;
+    display: block;
+    user-select: none;
+    -webkit-user-drag: none;
+  }
+
+  .piece-shield {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    cursor: default;
+  }
+
+  figcaption {
+    font-family: var(--font-pixel);
+    font-size: 0.85rem;
+    color: var(--text-dim);
+    padding: 0.4rem 0.6rem;
+    border-top: 1px solid var(--border);
+    letter-spacing: 0.06em;
+  }
+</style>
+
+<script>
+  document.getElementById('gallery')?.addEventListener('contextmenu', e => e.preventDefault());
+</script>

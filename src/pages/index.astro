@@ -46,12 +46,17 @@ const posts = (await getCollection('blog', ({ data }: CollectionEntry<'blog'>) =
       <a href="/projects" class="quick-link">
         <span class="ql-icon">[ ◈ ]</span>
         <span class="ql-label">QUEST LOG</span>
-        <span class="ql-sub">open source projects</span>
+        <span class="ql-sub">projects, musings, and ideas</span>
       </a>
       <a href="/blog" class="quick-link">
         <span class="ql-icon">[ ✦ ]</span>
         <span class="ql-label">FIELD NOTES</span>
         <span class="ql-sub">technical writing</span>
+      </a>
+      <a href="/doodles" class="quick-link">
+        <span class="ql-icon">[ ✦ ]</span>
+        <span class="ql-label">SKETCHBOOK</span>
+        <span class="ql-sub">attempts at art</span>
       </a>
     </div>
   </section>
@@ -81,13 +86,12 @@ const posts = (await getCollection('blog', ({ data }: CollectionEntry<'blog'>) =
 <script>
   /* ── Boot terminal ─────────────────────── */
   const lines = [
-    '> ACCESSING PERSONNEL FILE...',
-    '> SUBJECT......... De La Garza, Chris',
-    '> DESIGNATION..... Sr. Solutions Engineer',
-    '> CURRENT POST.... Teleport  |  Austin, TX',
-    '> EXPERTISE....... Infrastructure · Security · Pre-Sales',
-    '> COMMENDATION.... SE of the Year, FY25',
-    '> STATUS.......... ACTIVE',
+    '> INITIALIZING PROFILE...',
+    '> HANDLE........ tenaciousdlg',
+    '> ROLE.......... Infrastructure · Security · Pre-Sales',
+    '> LOCATION...... Denver, CO / Austin, TX',
+    '> REPUTATION.... SE of the Year, FY25',
+    '> STATUS........ BUILDING IN PUBLIC',
   ];
 
   const bootEl = document.getElementById('boot');

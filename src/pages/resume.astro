@@ -5,46 +5,86 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 <BaseLayout title="Resume" description="Chris De La Garza — Senior Solutions Engineer. Infrastructure, security, cloud, and pre-sales.">
   <h1 class="glitch page-title">// CHARACTER SHEET</h1>
 
+  <!-- Download block -->
+  <div class="box download-box" data-title="SAVE FILE">
+    <p class="dim" style="margin-bottom:1rem; font-size:0.9rem;">Download a copy of my resume:</p>
+    <div class="download-links">
+      <a href="/Chris_De_La_Garza_Resume_1Page.pdf" download class="dl-btn primary">
+        <span class="dl-icon">↓</span>
+        <span class="dl-label">1-Page <span class="dim">(recommended)</span></span>
+      </a>
+      <a href="/Chris_De_La_Garza_Resume_Light.pdf" download class="dl-btn">
+        <span class="dl-icon">↓</span>
+        <span class="dl-label">Full Resume <span class="dim">· light</span></span>
+      </a>
+      <a href="/Chris_De_La_Garza_Resume.pdf" download class="dl-btn">
+        <span class="dl-icon">↓</span>
+        <span class="dl-label">Full Resume <span class="dim">· dark</span></span>
+      </a>
+    </div>
+  </div>
+
   <!-- Identity block -->
   <div class="box" data-title="IDENTITY">
     <div class="identity-grid">
       <div>
         <div class="field"><span class="label">NAME</span><span class="value">Chris De La Garza</span></div>
         <div class="field"><span class="label">CLASS</span><span class="value amber">Senior Solutions Engineer</span></div>
-        <div class="field"><span class="label">GUILD</span><span class="value">Teleport</span></div>
-        <div class="field"><span class="label">LOCATION</span><span class="value">Austin, TX</span></div>
+        <div class="field"><span class="label">COMPANY</span><span class="value">Teleport</span></div>
+        <div class="field"><span class="label">LOCATION</span><span class="value">Austin, TX / Denver, CO</span></div>
       </div>
       <div>
         <div class="field"><span class="label">CONTACT</span><a href="mailto:hi@chrisdlg.com">hi@chrisdlg.com</a></div>
         <div class="field"><span class="label">LINKEDIN</span><a href="https://linkedin.com/in/cdlg" target="_blank" rel="noopener">linkedin.com/in/cdlg</a></div>
         <div class="field"><span class="label">GITHUB</span><a href="https://github.com/tenaciousdlg" target="_blank" rel="noopener">tenaciousdlg</a></div>
-        <div class="field"><span class="label">HONORS</span><span class="value amber">SE of the Year FY25 · 146.5% quota FY26</span></div>
+        <div class="field"><span class="label">HONORS</span><span class="value amber">SE of the Year · FY25</span></div>
+        <div class="field"><span class="label"></span><span class="value amber">146.5% Quota Attainment · FY26</span></div>
       </div>
     </div>
     <div class="summary">
       <p>
-        Infrastructure engineer turned solutions engineer with a decade of building, breaking, and securing systems
-        across bare metal, cloud, and Kubernetes. Specializes in translating complex technical architecture into
-        clear business outcomes during pre-sales engagements. Track record of building repeatable demo and
-        enablement systems that outlast the engagement.
+        Infrastructure Engineer turned Solutions Engineer with a decade of building, breaking, and securing systems
+        across bare metal, cloud, and Kubernetes. Known for building demo and enablement systems that outlast the
+        engagement. Specializes in translating complex technical architecture
+        into clear business outcomes during pre-sales engagements.
       </p>
     </div>
   </div>
 
-  <!-- Core stats -->
-  <div class="box" data-title="CORE STATS">
-    <div class="skill-bar"><span class="label">Pre-Sales / Solutions Engineering</span><div class="track"><div class="fill" style="width:95%"></div></div><span class="pct">95</span></div>
-    <div class="skill-bar"><span class="label">Infrastructure as Code (Terraform)</span><div class="track"><div class="fill" style="width:92%"></div></div><span class="pct">92</span></div>
-    <div class="skill-bar"><span class="label">Linux Systems Administration</span><div class="track"><div class="fill" style="width:90%"></div></div><span class="pct">90</span></div>
-    <div class="skill-bar"><span class="label">Kubernetes / Container Orchestration</span><div class="track"><div class="fill" style="width:85%"></div></div><span class="pct">85</span></div>
-    <div class="skill-bar"><span class="label">Cloud Platforms (AWS / GCP / Azure)</span><div class="track"><div class="fill" style="width:83%"></div></div><span class="pct">83</span></div>
-    <div class="skill-bar"><span class="label">Network Security / Zero Trust</span><div class="track"><div class="fill" style="width:88%"></div></div><span class="pct">88</span></div>
-    <div class="skill-bar"><span class="label">Bash / Shell Scripting</span><div class="track"><div class="fill" style="width:87%"></div></div><span class="pct">87</span></div>
-    <div class="skill-bar"><span class="label">Technical Enablement &amp; Training</span><div class="track"><div class="fill" style="width:90%"></div></div><span class="pct">90</span></div>
+  <!-- Proficiency tiers -->
+  <div class="box" data-title="PROFICIENCY LEVELS">
+    <div class="tier-grid">
+      <div class="tier">
+        <h3 class="tier-label expert">EXPERT</h3>
+        <ul>
+          <li>Pre-Sales / Solutions Engineering</li>
+          <li>Linux Systems Administration</li>
+          <li>Bash / Shell Scripting</li>
+          <li>Infrastructure as Code (Terraform)</li>
+        </ul>
+      </div>
+      <div class="tier">
+        <h3 class="tier-label proficient">PROFICIENT</h3>
+        <ul>
+          <li>Network Security / Zero Trust</li>
+          <li>Kubernetes / Container Orchestration</li>
+          <li>Cloud Platforms (AWS / GCP / Azure)</li>
+          <li>Technical Enablement &amp; Training</li>
+        </ul>
+      </div>
+      <div class="tier">
+        <h3 class="tier-label familiar">FAMILIAR</h3>
+        <ul>
+          <li>Python</li>
+          <li>Go</li>
+          <li>JavaScript</li>
+        </ul>
+      </div>
+    </div>
   </div>
 
   <!-- Tech stack -->
-  <div class="box" data-title="EQUIPMENT / TECH STACK">
+  <div class="box" data-title="TECH STACK">
     <div class="stack-grid">
       <div class="stack-group">
         <h3>Infrastructure</h3>
@@ -87,7 +127,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   </div>
 
   <!-- Quest Log -->
-  <div class="box" data-title="QUEST LOG / EXPERIENCE">
+  <div class="box" data-title="EXPERIENCE">
 
     <div class="quest">
       <div class="quest-header">
@@ -96,9 +136,9 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         <span class="quest-date dim">Sep 2023 – Present</span>
       </div>
       <ul>
-        <li>Drive proof-of-value deployments for enterprise prospects across AWS, GCP, Azure, and on-prem environments</li>
+        <li>Enterprise pre-sales across AWS, GCP, Azure, and on-prem — closed the <strong class="amber">largest deal in company history</strong></li>
         <li>Named <strong class="amber">Solutions Engineer of the Year FY25</strong>; exceeded quota every year at Teleport including <strong class="amber">146.5% attainment in FY26</strong></li>
-        <li>Designed and authored the <a href="https://github.com/tenaciousdlg/rev-tech">teleport-terraform reference architecture</a> — a full IaC template (EKS control plane, RBAC, SCIM, plugins, database access) used as the team's standard demo foundation</li>
+        <li>Designed and authored the <a href="https://github.com/tenaciousdlg/rev-tech">teleport-terraform reference architecture</a> — a full IaC template (EKS control plane, RBAC, SCIM, plugins, database access) adopted as the team's standard demo foundation</li>
         <li>Rebuilt and championed codifying conference demo infrastructure into documented, repeatable playbooks across the SE org — reducing setup time and improving demo consistency at field events</li>
         <li>Designed a 3-tier RBAC model integrating Okta group membership → Teleport Access Lists via SCIM, eliminating manual user management</li>
         <li>Deliver product demonstrations covering SSH, RDP, Kubernetes, database access, and machine identity across complex customer environments</li>
@@ -115,7 +155,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       <ul>
         <li>Technical lead for Central and West Field/Strategic teams supporting Fortune 500 accounts</li>
         <li>North America SME for API Shield, Cloudflare Tunnel, Docker, and Terraform</li>
-        <li>Built new-hire training program that reduced SE onboarding time from <strong>9 months to 90 days</strong></li>
+        <li>Built new-hire training program that cut SE onboarding from <strong>9 months to 90 days</strong></li>
         <li>Created Terraform examples and reusable templates for Cloudflare Tunnels deployment at scale (Terraform + Ansible + Docker)</li>
         <li>Assisted with team interviews and organizational structure for Strategic SE team buildout</li>
       </ul>
@@ -142,7 +182,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       </div>
       <ul>
         <li>Technical sales expert across the full Cloudflare product surface: CDN, DNS, WAF, Bot Management, Workers, Zero Trust</li>
-        <li>Founding member of Austin Mid-Market SE team; helped create team SOPs and cultural foundation</li>
+        <li>Founding member of Austin Mid-Market SE team; helped establish team SOPs and cultural foundation</li>
         <li>Technical lead supporting up to 15 Account Executives</li>
         <li>Developed reproducible demos via Terraform/shell scripting/Docker that became standardized tooling for the SE org</li>
         <li>Led SE booth and back-end demo infrastructure at Cloudflare Connect Conference 2019</li>
@@ -165,7 +205,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   </div>
 
   <!-- Education & Certs -->
-  <div class="box" data-title="LORE / EDUCATION &amp; CERTIFICATIONS">
+  <div class="box" data-title="EDUCATION &amp; CERTIFICATIONS">
     <div class="lore-grid">
       <div>
         <h3>Education</h3>
@@ -186,6 +226,22 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 <style>
   .page-title { font-size: 2rem; margin-bottom: 1.5rem; }
 
+  .download-box { margin-bottom: 1.5rem; }
+  .download-links { display: flex; flex-wrap: wrap; gap: 0.6rem; }
+  .dl-btn {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    border: 1px solid var(--border-bright);
+    padding: 0.4rem 0.9rem;
+    font-family: var(--font-pixel);
+    font-size: 0.95rem;
+    color: var(--text-bright);
+    transition: border-color 0.2s, color 0.2s, text-shadow 0.2s;
+  }
+  .dl-btn:hover { border-color: var(--amber); color: var(--amber-bright); text-shadow: var(--glow); }
+  .dl-btn.primary { border-color: var(--amber); color: var(--amber-bright); }
+  .dl-btn.primary:hover { text-shadow: var(--glow-strong); }
+  .dl-icon { font-size: 1.1rem; }
+
   .identity-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -197,11 +253,22 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   .value { color: var(--white); }
   .summary { border-top: 1px solid var(--border); padding-top: 1rem; color: var(--white); }
 
-  .skill-bar { display:flex; align-items:center; gap:0.75rem; margin-bottom:0.5rem; }
-  .skill-bar .label { min-width:280px; color:var(--white); font-size:0.88rem; flex-shrink:0; }
-  .skill-bar .track { flex:1; height:10px; background:var(--bg-3); border:1px solid var(--border); overflow:hidden; }
-  .skill-bar .fill  { height:100%; background:linear-gradient(90deg,var(--green-dim),var(--green-bright)); box-shadow:0 0 6px var(--green-bright); }
-  .skill-bar .pct   { min-width:2.5em; text-align:right; font-size:0.82rem; color:var(--green-dim); }
+  .tier-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    width: 100%;
+  }
+  .tier {
+    min-width: 0;
+  }
+  .tier-label { font-size: 0.8rem; font-family: var(--font-pixel); letter-spacing: 0.1em; margin-bottom: 0.75rem; }
+  .tier-label.expert { color: var(--green-bright); }
+  .tier-label.proficient { color: var(--amber); }
+  .tier-label.familiar { color: var(--white); }
+  .tier ul { list-style: none !important; padding: 0; margin: 0; }
+  .tier li { padding-left: 1.2rem; position: relative; margin-bottom: 0.3rem; color: var(--white); font-size: 0.9rem; list-style: none; }
+  .tier li::before { content: '> '; color: var(--green-dim); position: absolute; left: 0; }
 
   .stack-grid {
     display: grid;
@@ -226,7 +293,6 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   .lore-grid h3 { font-size: 1rem; font-family: var(--font-pixel); color: var(--amber); margin-bottom: 0.5rem; }
 
   @media (max-width: 640px) {
-    .identity-grid, .lore-grid { grid-template-columns: 1fr; }
-    .skill-bar .label { min-width: 160px; font-size: 0.8rem; }
+    .identity-grid, .lore-grid, .tier-grid { grid-template-columns: 1fr; }
   }
 </style>

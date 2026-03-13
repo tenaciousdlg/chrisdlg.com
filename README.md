@@ -1,43 +1,46 @@
-# Astro Starter Kit: Minimal
+# chrisdlg.com
 
-```sh
-npm create astro@latest -- --template minimal
+Personal site for Chris De La Garza — Sr. Solutions Engineer. Built with Astro 6 and deployed to Cloudflare Workers.
+
+**Live:** [chrisdlg.com](https://chrisdlg.com)
+
+## Stack
+
+- [Astro 6](https://astro.build) — static output
+- [Cloudflare Workers](https://workers.cloudflare.com) — hosting via `@astrojs/cloudflare` adapter
+- Vanilla CSS — retro amber/parchment palette (SNES RPG meets Fallout terminal)
+- Canvas 2D — animated sprite strip in the footer (hero + dog walking across screen)
+
+## Structure
+
+```
+src/
+  layouts/BaseLayout.astro   # shared HTML shell, OG tags, game strip animation
+  components/
+    Nav.astro
+    Footer.astro
+  pages/
+    index.astro              # home / about
+    blog/                    # markdown blog posts
+    projects.astro
+    resume.astro             # resume with PDF downloads
+    doodles.astro
+public/
+  sprites/                   # me.png, dog.png sprite sheets
+  doodles/                   # art
+  *.pdf                      # resume downloads (gitignored)
+  avatar.png                 # default OG image
 ```
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+## Commands
 
-## 🚀 Project Structure
+| Command | Action |
+| :--- | :--- |
+| `npm install` | Install dependencies |
+| `npm run dev` | Dev server at `localhost:4321` |
+| `npm run build` | Build to `./dist/` |
+| `npm run preview` | Preview production build locally |
 
-Inside of your Astro project, you'll see the following folders and files:
+## Deployment
 
-```text
-/
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
-```
-
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
-
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
-
-Any static assets, like images, can be placed in the `public/` directory.
-
-## 🧞 Commands
-
-All commands are run from the root of the project, from a terminal:
-
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+Pushes to `main` trigger an automatic build and deploy via Cloudflare Workers Git integration.
