@@ -1,69 +1,75 @@
 @import url('https://fonts.googleapis.com/css2?family=VT323&family=Share+Tech+Mono&display=swap');
 
 :root {
-  --bg:            #050805;
-  --bg-2:          #0a0f0a;
-  --bg-3:          #0e140e;
-  --green:         #33cc33;
-  --green-bright:  #00ff41;
-  --green-dim:     #1a7a1a;
-  --amber:         #ff8c00;
-  --red:           #ff3333;
-  --white:         #c8ffc8;
-  --border:        #1a5c1a;
+  /* ── Dark FF6/Elden Ring backgrounds ──── */
+  --bg:            #0b0912;
+  --bg-2:          #130f1d;
+  --bg-3:          #1a1528;
+
+  /* ── Amber / gold — Fallout Pip-Boy warmth */
+  --amber:         #c8902a;
+  --amber-bright:  #e8b040;
+  --amber-dim:     #5a3a10;
+
+  /* ── Parchment — body text ─────────────── */
+  --text:          #c0b090;
+  --text-bright:   #ddd0a8;
+  --text-dim:      #5a4e38;
+
+  /* ── Teal — SNES magic / Elden Ring grace  */
+  --teal:          #2a9a88;
+  --teal-dim:      #175a50;
+
+  /* ── Borders & danger ───────────────────── */
+  --border:        #2a1f0e;
+  --border-bright: #6b4a1a;
+  --red:           #b03a2a;
+
+  /* ── Fonts ──────────────────────────────── */
   --font-pixel:    'VT323', monospace;
   --font-mono:     'Share Tech Mono', monospace;
-  --glow:          0 0 8px rgba(0, 255, 65, 0.4);
-  --glow-strong:   0 0 12px rgba(0, 255, 65, 0.7);
+
+  /* ── Glows — warm amber phosphor ────────── */
+  --glow:          0 0 8px rgba(200, 144, 42, 0.45);
+  --glow-strong:   0 0 14px rgba(232, 176, 64, 0.75);
+  --text-glow:     0 0 6px rgba(192, 176, 144, 0.25);
+
+  /* ── legacy aliases so existing page CSS compiles */
+  --green:         var(--text);
+  --green-bright:  var(--amber-bright);
+  --green-dim:     var(--text-dim);
+  --white:         var(--text-bright);
 }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
 html { scroll-behavior: smooth; }
 
 body {
   background-color: var(--bg);
-  color: var(--green);
+  color: var(--text);
   font-family: var(--font-mono);
   font-size: 15px;
-  line-height: 1.7;
+  line-height: 1.75;
   min-height: 100vh;
-  position: relative;
   overflow-x: hidden;
 }
 
-/* CRT scanlines */
-body::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  background: repeating-linear-gradient(
-    0deg,
-    transparent,
-    transparent 2px,
-    rgba(0, 0, 0, 0.06) 2px,
-    rgba(0, 0, 0, 0.06) 4px
-  );
-  pointer-events: none;
-  z-index: 9999;
-}
-
-/* CRT vignette */
+/* Warm phosphor vignette — no scanlines */
 body::after {
   content: '';
   position: fixed;
   inset: 0;
-  background: radial-gradient(ellipse at center, transparent 55%, rgba(0, 0, 0, 0.55) 100%);
+  background: radial-gradient(ellipse at center, transparent 50%, rgba(0, 0, 0, 0.6) 100%);
   pointer-events: none;
-  z-index: 9998;
+  z-index: 9999;
 }
 
-a { color: var(--green-bright); text-decoration: none; transition: text-shadow 0.2s; }
-a:hover { text-shadow: var(--glow-strong); text-decoration: underline; }
+a { color: var(--amber); text-decoration: none; transition: color 0.2s, text-shadow 0.2s; }
+a:hover { color: var(--amber-bright); text-shadow: var(--glow); }
 
 h1, h2, h3, h4, h5 {
   font-family: var(--font-pixel);
-  color: var(--green-bright);
+  color: var(--amber-bright);
   text-shadow: var(--glow);
   letter-spacing: 0.06em;
   line-height: 1.2;
@@ -81,23 +87,62 @@ li { margin-bottom: 0.25rem; }
 
 /* ── Terminal box ─────────────────────────── */
 .box {
-  border: 1px solid var(--border);
+  border: 1px solid var(--border-bright);
   background: var(--bg-2);
   padding: 1.5rem;
   position: relative;
   margin-bottom: 1.5rem;
 }
+/* Corner accents — Art Deco / SNES menu feel */
+.box::before,
+.box::after {
+  content: '◈';
+  position: absolute;
+  font-size: 0.6rem;
+  color: var(--amber-dim);
+  line-height: 1;
+}
+.box::before { top: -0.4em; left: -0.4em; }
+.box::after  { bottom: -0.4em; right: -0.4em; }
+
+.box[data-title] > .box-title-hack,
 .box[data-title]::before {
-  content: '[ ' attr(data-title) ' ]';
+  /* override corner for titled boxes */
+}
+.box[data-title] {
+  --_title-shown: 1;
+}
+/* box title via data-title — we use a separate technique: */
+.box-label {
   position: absolute;
   top: -0.65em;
   left: 1em;
   background: var(--bg);
-  padding: 0 0.4em;
-  color: var(--green-bright);
+  padding: 0 0.5em;
+  color: var(--amber);
   font-family: var(--font-pixel);
   font-size: 1rem;
   letter-spacing: 0.12em;
+}
+
+/* Fallback for data-title boxes (pages that use the attribute directly) */
+.box[data-title]::before {
+  content: '[ ' attr(data-title) ' ]';
+  top: -0.65em;
+  left: 1em;
+  background: var(--bg);
+  padding: 0 0.4em;
+  color: var(--amber);
+  font-family: var(--font-pixel);
+  font-size: 1rem;
+  letter-spacing: 0.12em;
+  /* reset position */
+  position: absolute;
+  font-size: 1rem;
+}
+.box[data-title]::after {
+  /* clear the corner for titled boxes */
+  content: none;
 }
 
 /* ── Blinking cursor ──────────────────────── */
@@ -105,21 +150,21 @@ li { margin-bottom: 0.25rem; }
 .cursor {
   display: inline-block;
   width: 0.55em;
-  height: 1.1em;
-  background: var(--green-bright);
+  height: 1.05em;
+  background: var(--amber-bright);
   vertical-align: middle;
   margin-left: 2px;
   animation: blink 1s step-end infinite;
 }
 
-/* ── Subtle glitch on headings ────────────── */
+/* ── Glitch — amber chromatic aberration ──── */
 @keyframes glitch {
-  0%,90%,100%  { text-shadow: var(--glow); transform: none; }
-  91%  { text-shadow: 2px 0 0 rgba(255,0,80,0.4), -2px 0 0 rgba(0,255,200,0.3); transform: translateX(2px); }
-  93%  { text-shadow: -2px 0 0 rgba(255,0,80,0.4), 2px 0 0 rgba(0,255,200,0.3); transform: translateX(-2px); }
-  95%  { text-shadow: var(--glow); transform: translateX(1px); }
+  0%,88%,100% { text-shadow: var(--glow); transform: none; }
+  89%  { text-shadow: 2px 0 0 rgba(180,60,20,0.5), -2px 0 0 rgba(42,154,136,0.4); transform: translateX(2px); }
+  91%  { text-shadow: -2px 0 0 rgba(180,60,20,0.5), 2px 0 0 rgba(42,154,136,0.4); transform: translateX(-2px); }
+  93%  { text-shadow: var(--glow); transform: translateX(1px); }
 }
-.glitch { animation: glitch 6s ease-in-out infinite; }
+.glitch { animation: glitch 7s ease-in-out infinite; }
 
 /* ── Skill bar ────────────────────────────── */
 .skill-bar {
@@ -129,19 +174,18 @@ li { margin-bottom: 0.25rem; }
   margin-bottom: 0.4rem;
   font-size: 0.9rem;
 }
-.skill-bar .label { min-width: 200px; color: var(--white); }
+.skill-bar .label { min-width: 200px; color: var(--text-bright); }
 .skill-bar .track {
   flex: 1;
   height: 10px;
   background: var(--bg-3);
   border: 1px solid var(--border);
-  position: relative;
   overflow: hidden;
 }
 .skill-bar .fill {
   height: 100%;
-  background: linear-gradient(90deg, var(--green-dim), var(--green-bright));
-  box-shadow: 0 0 6px var(--green-bright);
+  background: linear-gradient(90deg, var(--amber-dim), var(--amber-bright));
+  box-shadow: 0 0 6px rgba(200, 144, 42, 0.5);
   transition: width 1s ease;
 }
 
@@ -150,22 +194,21 @@ li { margin-bottom: 0.25rem; }
 .tag {
   font-family: var(--font-pixel);
   font-size: 0.85rem;
-  color: var(--amber);
-  border: 1px solid var(--amber);
+  color: var(--teal);
+  border: 1px solid var(--teal-dim);
   padding: 0 0.45em;
   letter-spacing: 0.08em;
-  opacity: 0.85;
+  opacity: 0.9;
 }
 
-/* ── Amber highlight ──────────────────────── */
+/* ── Utility ──────────────────────────────── */
 .amber { color: var(--amber); }
-.dim   { color: var(--green-dim); }
-.bright{ color: var(--green-bright); }
+.teal  { color: var(--teal); }
+.dim   { color: var(--text-dim); }
+.bright{ color: var(--text-bright); }
 
-/* ── Selection ────────────────────────────── */
-::selection { background: var(--green-dim); color: var(--green-bright); }
+::selection { background: var(--amber-dim); color: var(--amber-bright); }
 
-/* ── Responsive ───────────────────────────── */
 @media (max-width: 600px) {
   body { font-size: 14px; }
   .skill-bar .label { min-width: 140px; font-size: 0.8rem; }

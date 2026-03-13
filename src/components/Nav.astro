@@ -12,7 +12,7 @@ const current = Astro.url.pathname;
 <header>
   <nav class="container">
     <a href="/" class="brand" aria-label="Home">
-      <span class="brand-bracket">&gt;</span> chrisdlg<span class="brand-cursor"></span>
+      <span class="brand-prompt">❯</span> chrisdlg<span class="brand-cursor"></span>
     </a>
     <ul role="list">
       {links.map(({ href, label }) => (
@@ -21,7 +21,7 @@ const current = Astro.url.pathname;
             href={href}
             class:list={['nav-link', { active: current === href || (href !== '/' && current.startsWith(href)) }]}
           >
-            [{label}]
+            {label}
           </a>
         </li>
       ))}
@@ -31,7 +31,7 @@ const current = Astro.url.pathname;
 
 <style>
   header {
-    border-bottom: 1px solid var(--border);
+    border-bottom: 1px solid var(--border-bright);
     background: var(--bg);
     position: sticky;
     top: 0;
@@ -50,19 +50,19 @@ const current = Astro.url.pathname;
   .brand {
     font-family: var(--font-pixel);
     font-size: 1.4rem;
-    color: var(--green-bright);
+    color: var(--amber-bright);
     text-shadow: var(--glow);
     text-decoration: none;
   }
-  .brand:hover { text-decoration: none; text-shadow: var(--glow-strong); }
+  .brand:hover { color: var(--amber-bright); text-shadow: var(--glow-strong); }
 
-  .brand-bracket { color: var(--amber); }
+  .brand-prompt { color: var(--teal); }
 
   .brand-cursor {
     display: inline-block;
     width: 0.5em;
     height: 0.9em;
-    background: var(--green-bright);
+    background: var(--amber-bright);
     vertical-align: middle;
     margin-left: 2px;
     animation: blink 1s step-end infinite;
@@ -81,15 +81,19 @@ const current = Astro.url.pathname;
   .nav-link {
     font-family: var(--font-pixel);
     font-size: 1rem;
-    color: var(--green-dim);
-    padding: 0.2rem 0.4rem;
+    color: var(--text-dim);
+    padding: 0.2rem 0.5rem;
     letter-spacing: 0.08em;
     transition: color 0.15s, text-shadow 0.15s;
+    text-decoration: none;
   }
   .nav-link:hover,
   .nav-link.active {
-    color: var(--green-bright);
+    color: var(--amber-bright);
     text-shadow: var(--glow);
     text-decoration: none;
+  }
+  .nav-link.active {
+    border-bottom: 1px solid var(--teal);
   }
 </style>

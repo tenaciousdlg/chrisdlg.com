@@ -9,31 +9,29 @@ const posts = (await getCollection('blog', ({ data }: CollectionEntry<'blog'>) =
 
 <BaseLayout title="Home">
   <section class="hero">
-    <pre class="ascii-art" aria-hidden="true">{`
-  ██████╗██╗  ██╗██████╗ ██╗███████╗    ██████╗ ██╗      ██████╗
- ██╔════╝██║  ██║██╔══██╗██║██╔════╝    ██╔══██╗██║     ██╔════╝
- ██║     ███████║██████╔╝██║███████╗    ██║  ██║██║     ██║  ███╗
- ██║     ██╔══██║██╔══██╗██║╚════██║    ██║  ██║██║     ██║   ██║
- ╚██████╗██║  ██║██║  ██║██║███████║    ██████╔╝███████╗╚██████╔╝
-  ╚═════╝╚═╝  ╚═╝╚═╝  ╚═╝╚═╝╚══════╝   ╚═════╝ ╚══════╝ ╚═════╝ `}</pre>
-
+    <div class="title-card">
+      <div class="tc-top">◈─────────────────────────◈</div>
+      <div class="tc-name glitch">CHRIS DE LA GARZA</div>
+      <div class="tc-role">SR. SOLUTIONS ENGINEER</div>
+      <div class="tc-bot">◈─────────────────────────◈</div>
+    </div>
     <div id="boot" class="boot-terminal" aria-live="polite"></div>
   </section>
 
-  <section class="quick-links box" data-title="NAVIGATION">
+  <section class="box" data-title="NAVIGATE">
     <div class="link-grid">
       <a href="/resume" class="quick-link">
-        <span class="icon">[ ♦ ]</span>
+        <span class="ql-icon">[ ♦ ]</span>
         <span class="ql-label">CHARACTER SHEET</span>
         <span class="ql-sub">resume &amp; skills</span>
       </a>
       <a href="/projects" class="quick-link">
-        <span class="icon">[ ◈ ]</span>
+        <span class="ql-icon">[ ◈ ]</span>
         <span class="ql-label">QUEST LOG</span>
         <span class="ql-sub">open source projects</span>
       </a>
       <a href="/blog" class="quick-link">
-        <span class="icon">[ ✦ ]</span>
+        <span class="ql-icon">[ ✦ ]</span>
         <span class="ql-label">FIELD NOTES</span>
         <span class="ql-sub">technical writing</span>
       </a>
@@ -64,15 +62,13 @@ const posts = (await getCollection('blog', ({ data }: CollectionEntry<'blog'>) =
 
 <script>
   const lines = [
-    '> INITIALIZING chrisdlg.com...',
-    '> LOADING PLAYER PROFILE...',
-    '> CLASS.......... Senior Solutions Engineer',
-    '> GUILD.......... Teleport',
-    '> LOCATION....... Austin, TX',
-    '> SPECIALIZATION. Infrastructure · Security · Pre-Sales',
-    '> ACTIVE QUEST... Securing distributed infrastructure at scale',
-    '> STATUS......... ONLINE',
-    '> _',
+    '> ACCESSING PERSONNEL FILE...',
+    '> SUBJECT......... De La Garza, Chris',
+    '> DESIGNATION..... Sr. Solutions Engineer',
+    '> CURRENT POST.... Teleport  |  Austin, TX',
+    '> EXPERTISE....... Infrastructure · Security · Pre-Sales',
+    '> COMMENDATION.... SE of the Year, FY25',
+    '> STATUS.......... ACTIVE',
   ];
 
   const el = document.getElementById('boot');
@@ -83,7 +79,7 @@ const posts = (await getCollection('blog', ({ data }: CollectionEntry<'blog'>) =
 
     function tick() {
       if (lineIdx >= lines.length) {
-        el!.innerHTML = output.replace(/\n_$/, '\n') + '<span class="cursor"></span>';
+        el!.innerHTML = output + '<span class="cursor"></span>';
         return;
       }
       const line = lines[lineIdx]!;
@@ -91,12 +87,12 @@ const posts = (await getCollection('blog', ({ data }: CollectionEntry<'blog'>) =
         output += line[charIdx];
         el!.textContent = output;
         charIdx++;
-        setTimeout(tick, charIdx === 1 && lineIdx > 0 ? 40 : 18);
+        setTimeout(tick, charIdx === 1 && lineIdx > 0 ? 35 : 16);
       } else {
         output += '\n';
         charIdx = 0;
         lineIdx++;
-        setTimeout(tick, lineIdx === lines.length ? 0 : 60);
+        setTimeout(tick, lineIdx === lines.length ? 0 : 55);
       }
     }
     setTimeout(tick, 400);
@@ -106,33 +102,50 @@ const posts = (await getCollection('blog', ({ data }: CollectionEntry<'blog'>) =
 <style>
   .hero { margin-bottom: 2.5rem; }
 
-  .ascii-art {
-    font-family: var(--font-mono);
-    font-size: clamp(5px, 1.1vw, 11px);
-    color: var(--green-bright);
-    text-shadow: var(--glow);
-    line-height: 1.15;
-    overflow-x: auto;
-    margin-bottom: 1.5rem;
-    white-space: pre;
+  /* SNES-style title card */
+  .title-card {
+    font-family: var(--font-pixel);
+    text-align: center;
+    margin-bottom: 2rem;
+    line-height: 1.4;
+  }
+  .tc-top, .tc-bot {
+    color: var(--amber-dim);
+    letter-spacing: 0.05em;
+    font-size: 1.1rem;
+  }
+  .tc-name {
+    font-size: clamp(2rem, 6vw, 3.5rem);
+    color: var(--amber-bright);
+    text-shadow: var(--glow-strong);
+    letter-spacing: 0.12em;
+    padding: 0.1em 0;
+  }
+  .tc-role {
+    font-size: 1.1rem;
+    color: var(--teal);
+    letter-spacing: 0.18em;
+    text-shadow: 0 0 8px rgba(42, 154, 136, 0.4);
+    margin-bottom: 0.2em;
   }
 
   .boot-terminal {
     font-family: var(--font-mono);
-    font-size: 0.95rem;
-    color: var(--green);
+    font-size: 0.9rem;
+    color: var(--text);
     white-space: pre-line;
-    min-height: 12em;
-    border-left: 2px solid var(--green-dim);
+    min-height: 9em;
+    border-left: 2px solid var(--border-bright);
     padding-left: 1rem;
+    line-height: 1.85;
   }
 
+  /* nav cards */
   .link-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: 1rem;
   }
-
   .quick-link {
     display: flex;
     flex-direction: column;
@@ -144,18 +157,18 @@ const posts = (await getCollection('blog', ({ data }: CollectionEntry<'blog'>) =
     text-decoration: none;
   }
   .quick-link:hover {
-    border-color: var(--green-bright);
+    border-color: var(--amber);
     background: var(--bg-3);
     text-decoration: none;
-    box-shadow: inset 0 0 12px rgba(0,255,65,0.05);
+    box-shadow: inset 0 0 14px rgba(200, 144, 42, 0.06);
   }
+  .ql-icon  { font-family: var(--font-pixel); font-size: 1.1rem; color: var(--teal); }
+  .ql-label { font-family: var(--font-pixel); font-size: 1.05rem; color: var(--amber-bright); letter-spacing: 0.06em; }
+  .ql-sub   { font-size: 0.8rem; color: var(--text-dim); }
 
-  .icon      { font-family: var(--font-pixel); font-size: 1.2rem; color: var(--amber); }
-  .ql-label  { font-family: var(--font-pixel); font-size: 1.1rem; color: var(--green-bright); letter-spacing: 0.06em; }
-  .ql-sub    { font-size: 0.82rem; color: var(--green-dim); }
-
-  .post-list { list-style: none; padding: 0; margin: 0; }
-  .post-item { padding: 0.4rem 0; border-bottom: 1px solid var(--bg-3); display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.4rem; }
-  .post-date { font-size: 0.85rem; }
-  .post-sep  { font-family: var(--font-pixel); }
+  /* recent posts */
+  .post-list  { list-style: none; padding: 0; margin: 0; }
+  .post-item  { padding: 0.4rem 0; border-bottom: 1px solid var(--bg-3); display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.4rem; }
+  .post-date  { font-size: 0.85rem; }
+  .post-sep   { font-family: var(--font-pixel); }
 </style>
