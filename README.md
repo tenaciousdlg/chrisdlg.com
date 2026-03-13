@@ -28,7 +28,7 @@ src/
 public/
   sprites/                   # me.png, dog.png sprite sheets
   doodles/                   # art
-  *.pdf                      # resume downloads (gitignored)
+  *.pdf                      # resume downloads
   avatar.png                 # default OG image
 ```
 
