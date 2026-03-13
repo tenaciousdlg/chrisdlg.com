@@ -9,32 +9,28 @@ const posts = (await getCollection('blog', ({ data }: CollectionEntry<'blog'>) =
 
 <BaseLayout title="Home">
   <section class="hero">
-    <pre class="ascii-art" aria-hidden="true">{`
-  ██████╗██╗  ██╗██████╗ ██╗███████╗    ██████╗ ██╗      ██████╗
- ██╔════╝██║  ██║██╔══██╗██║██╔════╝    ██╔══██╗██║     ██╔════╝
- ██║     ███████║██████╔╝██║███████╗    ██║  ██║██║     ██║  ███╗
- ██║     ██╔══██║██╔══██╗██║╚════██║    ██║  ██║██║     ██║   ██║
- ╚██████╗██║  ██║██║  ██║██║███████║    ██████╔╝███████╗╚██████╔╝
-  ╚═════╝╚═╝  ╚═╝╚═╝  ╚═╝╚═╝╚══════╝   ╚═════╝ ╚══════╝ ╚═════╝ `}</pre>
-
+    <div class="hero-eyebrow">chrisdlg.com</div>
+    <h1 class="hero-name glitch">Chris De La Garza</h1>
+    <p class="hero-title">Senior Solutions Engineer &nbsp;·&nbsp; Austin, TX</p>
+    <hr class="hero-rule" />
     <div id="boot" class="boot-terminal" aria-live="polite"></div>
   </section>
 
-  <section class="quick-links box" data-title="NAVIGATION">
+  <section class="quick-links box" data-title="EXPLORE">
     <div class="link-grid">
       <a href="/resume" class="quick-link">
-        <span class="icon">[ ♦ ]</span>
-        <span class="ql-label">CHARACTER SHEET</span>
-        <span class="ql-sub">resume &amp; skills</span>
+        <span class="icon">♦</span>
+        <span class="ql-label">Resume</span>
+        <span class="ql-sub">character sheet &amp; skills</span>
       </a>
       <a href="/projects" class="quick-link">
-        <span class="icon">[ ◈ ]</span>
-        <span class="ql-label">QUEST LOG</span>
-        <span class="ql-sub">open source projects</span>
+        <span class="icon">◈</span>
+        <span class="ql-label">Projects</span>
+        <span class="ql-sub">open source &amp; infrastructure</span>
       </a>
       <a href="/blog" class="quick-link">
-        <span class="icon">[ ✦ ]</span>
-        <span class="ql-label">FIELD NOTES</span>
+        <span class="icon">✦</span>
+        <span class="ql-label">Field Notes</span>
         <span class="ql-sub">technical writing</span>
       </a>
     </div>
@@ -42,12 +38,14 @@ const posts = (await getCollection('blog', ({ data }: CollectionEntry<'blog'>) =
 
   {posts.length > 0 && (
     <section>
-      <h2 style="margin-bottom:1rem;">// RECENT FIELD NOTES</h2>
+      <h2 class="section-heading">Recent Field Notes</h2>
       <ul class="post-list" role="list">
         {posts.map((post: CollectionEntry<'blog'>) => (
           <li class="post-item">
-            <span class="post-date dim">{post.data.date.toISOString().slice(0, 10)}</span>
-            <span class="post-sep amber"> &gt; </span>
+            <time class="post-date dim" datetime={post.data.date.toISOString()}>
+              {post.data.date.toISOString().slice(0, 10)}
+            </time>
+            <span class="post-sep"> — </span>
             <a href={`/blog/${post.id}`}>{post.data.title}</a>
             {post.data.tags.length > 0 && (
               <span class="tags">
@@ -57,22 +55,20 @@ const posts = (await getCollection('blog', ({ data }: CollectionEntry<'blog'>) =
           </li>
         ))}
       </ul>
-      <p style="margin-top:1rem;"><a href="/blog">view all posts &gt;</a></p>
+      <p style="margin-top:1.25rem;"><a href="/blog">All posts →</a></p>
     </section>
   )}
 </BaseLayout>
 
 <script>
   const lines = [
-    '> INITIALIZING chrisdlg.com...',
-    '> LOADING PLAYER PROFILE...',
-    '> CLASS.......... Senior Solutions Engineer',
-    '> GUILD.......... Teleport',
-    '> LOCATION....... Austin, TX',
-    '> SPECIALIZATION. Infrastructure · Security · Pre-Sales',
-    '> ACTIVE QUEST... Securing distributed infrastructure at scale',
-    '> STATUS......... ONLINE',
-    '> _',
+    'Initializing profile...',
+    'Class ........... Senior Solutions Engineer',
+    'Guild ........... Teleport',
+    'Location ........ Austin, TX',
+    'Specialization .. Infrastructure · Security · Pre-Sales',
+    'Active quest .... Securing distributed infrastructure at scale',
+    'Status .......... Online',
   ];
 
   const el = document.getElementById('boot');
@@ -83,7 +79,7 @@ const posts = (await getCollection('blog', ({ data }: CollectionEntry<'blog'>) =
 
     function tick() {
       if (lineIdx >= lines.length) {
-        el!.innerHTML = output.replace(/\n_$/, '\n') + '<span class="cursor"></span>';
+        el!.innerHTML = output + '<span class="cursor"></span>';
         return;
       }
       const line = lines[lineIdx]!;
@@ -91,71 +87,106 @@ const posts = (await getCollection('blog', ({ data }: CollectionEntry<'blog'>) =
         output += line[charIdx];
         el!.textContent = output;
         charIdx++;
-        setTimeout(tick, charIdx === 1 && lineIdx > 0 ? 40 : 18);
+        setTimeout(tick, charIdx === 1 && lineIdx > 0 ? 35 : 16);
       } else {
         output += '\n';
         charIdx = 0;
         lineIdx++;
-        setTimeout(tick, lineIdx === lines.length ? 0 : 60);
+        setTimeout(tick, lineIdx === lines.length ? 0 : 55);
       }
     }
-    setTimeout(tick, 400);
+    setTimeout(tick, 300);
   }
 </script>
 
 <style>
-  .hero { margin-bottom: 2.5rem; }
+  /* ── Hero ──────────────────────────────── */
+  .hero { margin-bottom: 3rem; padding-top: 1rem; }
 
-  .ascii-art {
+  .hero-eyebrow {
     font-family: var(--font-mono);
-    font-size: clamp(5px, 1.1vw, 11px);
-    color: var(--green-bright);
-    text-shadow: var(--glow);
-    line-height: 1.15;
-    overflow-x: auto;
+    font-size: 0.8rem;
+    color: var(--text-dim);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 0.6rem;
+  }
+
+  .hero-name {
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    letter-spacing: 0.1em;
+    margin-bottom: 0.4rem;
+    font-weight: 700;
+  }
+
+  .hero-title {
+    font-family: var(--font-mono);
+    font-size: 0.92rem;
+    color: var(--text);
     margin-bottom: 1.5rem;
-    white-space: pre;
+    letter-spacing: 0.05em;
+  }
+
+  .hero-rule {
+    border: none;
+    border-top: 1px solid var(--border-gold);
+    margin-bottom: 1.5rem;
+    position: relative;
+  }
+  .hero-rule::after {
+    content: '✦';
+    position: absolute;
+    top: -0.6em;
+    left: 0;
+    background: var(--bg);
+    padding-right: 0.6em;
+    color: var(--gold-dim);
+    font-size: 0.75rem;
   }
 
   .boot-terminal {
     font-family: var(--font-mono);
-    font-size: 0.95rem;
-    color: var(--green);
+    font-size: 0.88rem;
+    color: var(--text);
     white-space: pre-line;
-    min-height: 12em;
-    border-left: 2px solid var(--green-dim);
-    padding-left: 1rem;
+    min-height: 10em;
+    border-left: 2px solid var(--border-gold);
+    padding-left: 1.25rem;
+    line-height: 1.9;
   }
 
+  /* ── Nav cards ─────────────────────────── */
   .link-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
     gap: 1rem;
   }
 
   .quick-link {
     display: flex;
     flex-direction: column;
-    gap: 0.2rem;
-    padding: 1rem;
-    border: 1px solid var(--border);
+    gap: 0.25rem;
+    padding: 1.1rem 1.25rem;
+    border: 1px solid var(--border-gold);
     background: var(--bg);
-    transition: border-color 0.2s, background 0.2s;
+    transition: border-color 0.2s, background 0.2s, box-shadow 0.2s;
     text-decoration: none;
   }
   .quick-link:hover {
-    border-color: var(--green-bright);
+    border-color: var(--gold);
     background: var(--bg-3);
+    box-shadow: 0 0 16px rgba(201, 168, 76, 0.08);
     text-decoration: none;
-    box-shadow: inset 0 0 12px rgba(0,255,65,0.05);
   }
 
-  .icon      { font-family: var(--font-pixel); font-size: 1.2rem; color: var(--amber); }
-  .ql-label  { font-family: var(--font-pixel); font-size: 1.1rem; color: var(--green-bright); letter-spacing: 0.06em; }
-  .ql-sub    { font-size: 0.82rem; color: var(--green-dim); }
+  .icon     { font-size: 1rem; color: var(--gold); margin-bottom: 0.1rem; }
+  .ql-label { font-family: var(--font-heading); font-size: 0.95rem; color: var(--gold-bright); letter-spacing: 0.08em; font-weight: 600; }
+  .ql-sub   { font-size: 0.78rem; color: var(--text-dim); }
 
-  .post-list { list-style: none; padding: 0; margin: 0; }
-  .post-item { padding: 0.4rem 0; border-bottom: 1px solid var(--bg-3); display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.4rem; }
-  .post-date { font-size: 0.85rem; }
-  .post-sep  { font-family: var(--font-pixel); }
+  /* ── Recent posts ──────────────────────── */
+  .section-heading { font-size: 1.1rem; margin-bottom: 1rem; letter-spacing: 0.12em; }
+  .post-list  { list-style: none; padding: 0; margin: 0; }
+  .post-item  { padding: 0.45rem 0; border-bottom: 1px solid var(--border); display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.4rem; }
+  .post-date  { font-size: 0.82rem; }
+  .post-sep   { color: var(--gold-dim); }
 </style>
