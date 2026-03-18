@@ -12,9 +12,9 @@
   --amber-dim:     #5a3a10;
 
   /* ── Parchment — body text ─────────────── */
-  --text:          #c0b090;
-  --text-bright:   #ddd0a8;
-  --text-dim:      #5a4e38;
+  --text:          #cec4a0;
+  --text-bright:   #e8ddb8;
+  --text-dim:      #8a7a5a;
 
   /* ── Teal — SNES magic / Elden Ring grace  */
   --teal:          #2a9a88;
@@ -60,9 +60,13 @@ body::after {
   content: '';
   position: fixed;
   inset: 0;
-  background: radial-gradient(ellipse at center, transparent 50%, rgba(0, 0, 0, 0.6) 100%);
+  background: radial-gradient(ellipse at center, transparent 50%, rgba(0, 0, 0, 0.4) 100%);
   pointer-events: none;
   z-index: 9999;
+}
+
+@media (max-width: 600px) {
+  body::after { display: none; }
 }
 
 a { color: var(--amber); text-decoration: none; transition: color 0.2s, text-shadow 0.2s; }
@@ -211,6 +215,6 @@ li { margin-bottom: 0.25rem; }
 ::selection { background: var(--amber-dim); color: var(--amber-bright); }
 
 @media (max-width: 600px) {
-  body { font-size: 14px; }
+  body { font-size: 16px; }
   .skill-bar .label { min-width: 140px; font-size: 0.8rem; }
 }
