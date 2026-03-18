@@ -3,6 +3,15 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
 const projects = [
   {
+    name: 'The Joy of Terraforming',
+    url: 'https://cloudflare.tv/event/5ZnyReaA',
+    status: 'ARCHIVE',
+    stack: ['terraform', 'cloudflare', 'zero-trust'],
+    description:
+      '30-minute Cloudflare TV segment walking through an initial Cloudflare deployment with Terraform — zones, DNS, Tunnels, and Access policies. Aired May 26, 2021.',
+    linkText: 'watch on cloudflare.tv',
+  },
+  {
     name: 'teleport_terraform',
     url: 'https://github.com/tenaciousdlg/teleport_terraform',
     status: 'ACTIVE',
@@ -44,7 +53,7 @@ const projects = [
           {p.stack.map((t) => <span class="tag">{t}</span>)}
         </div>
         <p class="project-desc">{p.description}</p>
-        <a href={p.url} target="_blank" rel="noopener" class="card-link">view on github &gt;</a>
+        <a href={p.url} target="_blank" rel="noopener" class="card-link">{p.linkText ?? 'view on github'} &gt;</a>
       </li>
     ))}
   </ul>
