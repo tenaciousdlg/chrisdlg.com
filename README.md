@@ -25,6 +25,8 @@ src/
     projects.astro
     resume.astro             # resume with PDF downloads
     doodles.astro
+    rss.xml.ts               # RSS feed
+    404.astro                # custom 404 page
 public/
   sprites/                   # me.png, dog.png sprite sheets
   doodles/                   # art
