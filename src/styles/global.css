@@ -14,11 +14,11 @@
   /* ── Parchment — body text ─────────────── */
   --text:          #cec4a0;
   --text-bright:   #e8ddb8;
-  --text-dim:      #8a7a5a;
+  --text-dim:      #a8956e;
 
   /* ── Teal — SNES magic / Elden Ring grace  */
-  --teal:          #2a9a88;
-  --teal-dim:      #175a50;
+  --teal:          #3db8a4;
+  --teal-dim:      #1e6e60;
 
   /* ── Borders & danger ───────────────────── */
   --border:        #2a1f0e;
@@ -215,6 +215,8 @@ li { margin-bottom: 0.25rem; }
 ::selection { background: var(--amber-dim); color: var(--amber-bright); }
 
 @media (max-width: 600px) {
-  body { font-size: 16px; }
+  body { font-size: 16px; line-height: 1.85; }
   .skill-bar .label { min-width: 140px; font-size: 0.8rem; }
+  .box { padding: 1.25rem; }
+  p, li { color: var(--text-bright); }
 }
