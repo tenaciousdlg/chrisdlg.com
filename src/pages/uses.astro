@@ -1,0 +1,68 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const gear = [
+  {
+    category: 'HARDWARE',
+    items: [
+      { name: 'MacBook Pro 14"', note: 'M3 Pro — primary machine' },
+      { name: 'LG 27" 4K', note: 'external display' },
+    ],
+  },
+  {
+    category: 'EDITOR + TERMINAL',
+    items: [
+      { name: 'VS Code', note: 'day-to-day editing' },
+      { name: 'Claude Code', note: 'AI pair programming' },
+      { name: 'iTerm2', note: 'terminal' },
+      { name: 'zsh + oh-my-zsh', note: 'shell' },
+    ],
+  },
+  {
+    category: 'INFRASTRUCTURE',
+    items: [
+      { name: 'Terraform', note: 'infra as code' },
+      { name: 'Teleport', note: 'infra access & identity' },
+      { name: 'Cloudflare', note: 'DNS, WAF, Workers, Tunnels' },
+      { name: 'AWS', note: 'cloud provider' },
+      { name: 'Docker', note: 'containers' },
+    ],
+  },
+  {
+    category: 'THIS SITE',
+    items: [
+      { name: 'Astro 6', note: 'static site framework' },
+      { name: 'Cloudflare Workers', note: 'hosting & edge deployment' },
+      { name: 'VT323 + Share Tech Mono', note: 'fonts (Google Fonts)' },
+    ],
+  },
+];
+---
+
+<BaseLayout title="Uses" description="Hardware, software, and tools Chris De La Garza uses daily.">
+  <h1 class="page-title">// LOADOUT</h1>
+  <p class="dim" style="margin-bottom:2rem;">Hardware, software, and tools I reach for daily.</p>
+
+  {gear.map((section) => (
+    <section class="box" style="margin-bottom:1.5rem;">
+      <span class="box-label">{section.category}</span>
+      <ul class="gear-list">
+        {section.items.map((item) => (
+          <li class="gear-item">
+            <span class="gear-name">{item.name}</span>
+            <span class="gear-note dim"> — {item.note}</span>
+          </li>
+        ))}
+      </ul>
+    </section>
+  ))}
+</BaseLayout>
+
+<style>
+  .page-title { font-size: 2rem; margin-bottom: 0.5rem; }
+  .gear-list  { list-style: none; padding: 0; margin: 0; }
+  .gear-item  { padding: 0.35rem 0; border-bottom: 1px solid var(--bg-3); }
+  .gear-item:last-child { border-bottom: none; }
+  .gear-name  { color: var(--text-bright); font-weight: 500; }
+  .gear-note  { font-size: 0.9rem; }
+</style>

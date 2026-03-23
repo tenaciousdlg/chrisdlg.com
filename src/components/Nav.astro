@@ -4,6 +4,7 @@ const links = [
   { href: '/resume',   label: 'RESUME'    },
   { href: '/projects', label: 'PROJECTS'  },
   { href: '/blog',     label: 'BLOG'      },
+  { href: '/uses',     label: 'USES'      },
   { href: '/doodles',  label: 'SKETCHBOOK'},
 ];
 
@@ -15,18 +16,24 @@ const current = Astro.url.pathname;
     <a href="/" class="brand" aria-label="Home">
       <span class="brand-prompt">❯</span> chrisdlg<span class="brand-cursor"></span>
     </a>
-    <ul role="list">
-      {links.map(({ href, label }) => (
-        <li>
-          <a
-            href={href}
-            class:list={['nav-link', { active: current === href || (href !== '/' && current.startsWith(href)) }]}
-          >
-            {label}
-          </a>
-        </li>
-      ))}
-    </ul>
+    <div class="nav-right">
+      <ul role="list">
+        {links.map(({ href, label }) => (
+          <li>
+            <a
+              href={href}
+              class:list={['nav-link', { active: current === href || (href !== '/' && current.startsWith(href)) }]}
+            >
+              {label}
+            </a>
+          </li>
+        ))}
+      </ul>
+      <div class="social-links">
+        <a href="https://github.com/tenaciousdlg" target="_blank" rel="noopener" class="social-link" aria-label="GitHub">GH</a>
+        <a href="https://linkedin.com/in/cdlg" target="_blank" rel="noopener" class="social-link" aria-label="LinkedIn">LI</a>
+      </div>
+    </div>
   </nav>
 </header>
 
@@ -46,6 +53,35 @@ const current = Astro.url.pathname;
     justify-content: space-between;
     flex-wrap: wrap;
     gap: 0.5rem;
+  }
+
+  .nav-right {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+  }
+
+  .social-links {
+    display: flex;
+    gap: 0.25rem;
+    border-left: 1px solid var(--border-bright);
+    padding-left: 0.75rem;
+  }
+
+  .social-link {
+    font-family: var(--font-pixel);
+    font-size: 0.9rem;
+    color: var(--text-dim);
+    padding: 0.2rem 0.4rem;
+    letter-spacing: 0.06em;
+    transition: color 0.15s, text-shadow 0.15s;
+    text-decoration: none;
+  }
+  .social-link:hover {
+    color: var(--amber-bright);
+    text-shadow: var(--glow);
+    text-decoration: none;
   }
 
   .brand {

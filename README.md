@@ -9,7 +9,7 @@ Personal site for Chris De La Garza — Sr. Solutions Engineer. Built with Astro
 - [Astro 6](https://astro.build) — static output
 - [Cloudflare Workers](https://workers.cloudflare.com) — hosting via `@astrojs/cloudflare` adapter
 - Vanilla CSS — retro amber/parchment palette (SNES RPG meets Fallout terminal)
-- Canvas 2D — animated sprite strip in the footer (hero + dog walking across screen)
+- Canvas 2D — animated sprite strip in the footer (user + dog walking across screen)
 
 ## Structure
 
