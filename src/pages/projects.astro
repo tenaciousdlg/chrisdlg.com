@@ -36,20 +36,20 @@ const projects = [
       'Full Teleport Enterprise deployment on GKE — control plane, RBAC, and data-plane test infrastructure — with Google OIDC, Firestore, and GCS session recordings. Built for POV demos where load balancers can\'t be exposed publicly.',
   },
   {
-    name: 'identity-aware-proxy-workshop',
-    url: 'https://github.com/tenaciousdlg/identity-aware-proxy-workshop',
-    status: 'ACTIVE',
-    stack: ['envoy', 'jwt', 'oidc', 'kubernetes', 'postgres'],
-    description:
-      'Hands-on workshop on identity-aware access control with reverse proxies — Envoy and a custom Postgres wire-protocol proxy both enforcing the same Keycloak-issued JWT, without touching application code.',
-  },
-  {
     name: 'app-demo-panel',
     url: 'https://github.com/tenaciousdlg/app-demo-panel',
     status: 'ACTIVE',
     stack: ['python', 'flask', 'teleport', 'jwt'],
     description:
       'Flask application that demonstrates Teleport application access. Decodes the Teleport-Jwt-Assertion header and renders the authenticated user\'s identity, roles, and traits in a clean UI. Useful for SE demos showing what downstream apps can consume from Teleport.',
+  },
+  {
+    name: 'identity-aware-proxy-workshop',
+    url: 'https://github.com/tenaciousdlg/identity-aware-proxy-workshop',
+    status: 'ARCHIVE',
+    stack: ['envoy', 'jwt', 'oidc', 'kubernetes', 'postgres'],
+    description:
+      'Hands-on workshop on identity-aware access control with reverse proxies: Envoy and a custom Postgres wire-protocol proxy both enforcing the same Keycloak-issued JWT, without touching application code. Delivered at KCD Toronto and KCD Texas (Austin) in May 2026, no future sessions currently planned.',
   },
   {
     name: 'The Joy of Terraforming',
