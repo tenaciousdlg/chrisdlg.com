@@ -13,6 +13,10 @@ const blog = defineCollection({
     description: z.string(),
     tags: z.array(z.string()).optional().default([]),
     draft: z.boolean().optional().default(false),
+    // Linkpost: published elsewhere (e.g. the Teleport blog). Entries with
+    // `external` render in lists pointing at the canonical URL and get no
+    // local page.
+    external: z.string().url().optional(),
   }),
 });
 

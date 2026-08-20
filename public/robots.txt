@@ -1,0 +1,8 @@
+# Cloudflare's managed robots.txt (AI Crawl Control content signals) is
+# prepended to this file at the edge — this origin file only needs to add
+# what the managed block doesn't: the sitemap location.
+
+User-agent: *
+Allow: /
+
+Sitemap: https://chrisdlg.com/sitemap-index.xml

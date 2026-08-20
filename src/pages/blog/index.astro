@@ -36,10 +36,18 @@ const allTags = [...new Set(posts.flatMap((p: CollectionEntry<'blog'>) => p.data
             )}
           </div>
           <h2 class="post-title">
-            <a href={`/blog/${post.id}`}>{post.data.title}</a>
+            {post.data.external ? (
+              <a href={post.data.external} target="_blank" rel="noopener">{post.data.title} <span class="ext-mark">↗</span></a>
+            ) : (
+              <a href={`/blog/${post.id}/`}>{post.data.title}</a>
+            )}
           </h2>
           <p class="post-desc">{post.data.description}</p>
-          <a href={`/blog/${post.id}`} class="read-more">read more &gt;</a>
+          {post.data.external ? (
+            <a href={post.data.external} target="_blank" rel="noopener" class="read-more">read at {new URL(post.data.external).hostname} &gt;</a>
+          ) : (
+            <a href={`/blog/${post.id}/`} class="read-more">read more &gt;</a>
+          )}
         </li>
       ))}
     </ul>
@@ -56,4 +64,5 @@ const allTags = [...new Set(posts.flatMap((p: CollectionEntry<'blog'>) => p.data
   .post-title a:hover { text-shadow: var(--glow-strong); }
   .post-desc { color: var(--white); margin-bottom: 0.6rem; font-size: 0.92rem; }
   .read-more { font-size: 0.85rem; }
+  .ext-mark { color: var(--amber); font-size: 0.8em; }
 </style>

@@ -1,0 +1,32 @@
+# Served by the Workers static assets layer (never served as a file itself).
+#
+# CSP notes:
+# - script-src 'self' works because astro.config.mjs sets assetsInlineLimit
+#   to 0, forcing component <script>s into external /_astro/ files. If a
+#   script ever gets inlined again, pages will break loudly in the console.
+# - style-src keeps 'unsafe-inline' because the templates use style=""
+#   attributes and Astro may inline small stylesheets. Style injection is a
+#   far smaller risk than script injection; this is the standard trade-off.
+
+/*
+  Content-Security-Policy: default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self'; font-src 'self'; connect-src 'self'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'; upgrade-insecure-requests
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: DENY
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=()
+
+# Content-hashed by Astro — a changed file always gets a new URL.
+/_astro/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# NOT content-hashed: if a font file's contents ever change, rename the
+# file (bump a version suffix) or returning visitors keep the old one
+# for up to a year.
+/fonts/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# Stable images, but same no-hash caveat as fonts — one day only.
+/doodles/*
+  Cache-Control: public, max-age=86400
+/sprites/*
+  Cache-Control: public, max-age=86400

@@ -1,13 +1,13 @@
 {
+	// Assets-only Worker: no `main`, so requests are served straight from
+	// the static assets layer and never invoke compute. Astro builds with
+	// no adapter (output: 'static'), emitting plain HTML into ./dist.
 	"compatibility_date": "2026-03-10",
-	"compatibility_flags": ["global_fetch_strictly_public"],
 	"name": "chrisdlg-com",
-	"main": "@astrojs/cloudflare/entrypoints/server",
 	"assets": {
 		"directory": "./dist",
-		"binding": "ASSETS"
-	},
-	"observability": {
-		"enabled": true
+		// Serve dist/404.html (Astro's 404 page) with a 404 status for
+		// unmatched paths — with no server bundle there's no fallback route.
+		"not_found_handling": "404-page"
 	}
 }

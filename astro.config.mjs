@@ -1,9 +1,20 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
-import cloudflare from '@astrojs/cloudflare';
+import sitemap from '@astrojs/sitemap';
 
+// No adapter: every page is prerendered, so the site deploys as an
+// assets-only Worker (see wrangler.jsonc) with no server bundle. If a
+// dynamic route ever appears, re-add @astrojs/cloudflare here and restore
+// main/binding in wrangler.jsonc.
 export default defineConfig({
   output: 'static',
-  adapter: cloudflare(),
   site: 'https://chrisdlg.com',
+  integrations: [sitemap()],
+  vite: {
+    build: {
+      // Never inline component <script>s into HTML — external files let
+      // the _headers CSP stay at script-src 'self' (no unsafe-inline).
+      assetsInlineLimit: 0,
+    },
+  },
 });

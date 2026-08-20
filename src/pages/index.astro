@@ -69,7 +69,11 @@ const posts = (await getCollection('blog', ({ data }: CollectionEntry<'blog'>) =
           <li class="post-item">
             <span class="post-date dim">{post.data.date.toISOString().slice(0, 10)}</span>
             <span class="post-sep amber"> &gt; </span>
-            <a href={`/blog/${post.id}`}>{post.data.title}</a>
+            {post.data.external ? (
+              <a href={post.data.external} target="_blank" rel="noopener">{post.data.title} ↗</a>
+            ) : (
+              <a href={`/blog/${post.id}/`}>{post.data.title}</a>
+            )}
             {post.data.tags.length > 0 && (
               <span class="tags">
                 {post.data.tags.map((t: string) => <span class="tag">{t}</span>)}
