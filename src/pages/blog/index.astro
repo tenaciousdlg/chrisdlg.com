@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import PostList from '../../components/PostList.astro';
 import { getCollection, type CollectionEntry } from 'astro:content';
 
 const posts = (await getCollection('blog', ({ data }: CollectionEntry<'blog'>) => !data.draft))
@@ -14,55 +15,23 @@ const allTags = [...new Set(posts.flatMap((p: CollectionEntry<'blog'>) => p.data
   <p class="dim" style="margin-bottom:2rem;">Technical writing on infrastructure, security tooling, and things I've built.</p>
 
   {allTags.length > 0 && (
-    <div class="tags" style="margin-bottom:1.5rem;">
-      {allTags.map((tag: string) => <span class="tag">{tag}</span>)}
+    <div class="tags tag-cloud">
+      {allTags.map((tag: string) => (
+        <a class="tag" href={`/blog/tags/${tag}/`}>{tag}</a>
+      ))}
     </div>
   )}
 
   {posts.length === 0 ? (
     <p class="dim">No posts yet. Check back soon.</p>
   ) : (
-    <ul class="post-list" role="list">
-      {posts.map((post: CollectionEntry<'blog'>) => (
-        <li class="post-item box">
-          <div class="post-meta">
-            <time class="dim" datetime={post.data.date.toISOString()}>
-              {post.data.date.toISOString().slice(0, 10)}
-            </time>
-            {post.data.tags.length > 0 && (
-              <span class="tags">
-                {post.data.tags.map((t: string) => <span class="tag">{t}</span>)}
-              </span>
-            )}
-          </div>
-          <h2 class="post-title">
-            {post.data.external ? (
-              <a href={post.data.external} target="_blank" rel="noopener">{post.data.title} <span class="ext-mark">↗</span></a>
-            ) : (
-              <a href={`/blog/${post.id}/`}>{post.data.title}</a>
-            )}
-          </h2>
-          <p class="post-desc">{post.data.description}</p>
-          {post.data.external ? (
-            <a href={post.data.external} target="_blank" rel="noopener" class="read-more">read at {new URL(post.data.external).hostname} &gt;</a>
-          ) : (
-            <a href={`/blog/${post.id}/`} class="read-more">read more &gt;</a>
-          )}
-        </li>
-      ))}
-    </ul>
+    <PostList posts={posts} />
   )}
 </BaseLayout>
 
 <style>
   .page-title { font-size: 2rem; margin-bottom: 0.5rem; }
-  .post-list { list-style: none; padding: 0; }
-  .post-item { padding: 1.25rem !important; }
-  .post-meta { display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center; margin-bottom: 0.4rem; font-size: 0.85rem; }
-  .post-title { font-size: 1.4rem; margin-bottom: 0.4rem; }
-  .post-title a { color: var(--green-bright); }
-  .post-title a:hover { text-shadow: var(--glow-strong); }
-  .post-desc { color: var(--white); margin-bottom: 0.6rem; font-size: 0.92rem; }
-  .read-more { font-size: 0.85rem; }
-  .ext-mark { color: var(--amber); font-size: 0.8em; }
+  .tag-cloud { margin-bottom: 1.5rem; display: flex; flex-wrap: wrap; gap: 0.4rem; }
+  .tag-cloud a.tag { text-decoration: none; }
+  .tag-cloud a.tag:hover { color: var(--green-bright); border-color: var(--green-bright); }
 </style>

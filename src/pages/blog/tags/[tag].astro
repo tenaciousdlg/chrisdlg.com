@@ -1,0 +1,39 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import PostList from '../../../components/PostList.astro';
+import { getCollection, type CollectionEntry } from 'astro:content';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog', ({ data }: CollectionEntry<'blog'>) => !data.draft);
+  const tags = [...new Set(posts.flatMap((p: CollectionEntry<'blog'>) => p.data.tags))];
+  return tags.map((tag) => ({
+    params: { tag },
+    props: {
+      tag,
+      posts: posts
+        .filter((p: CollectionEntry<'blog'>) => p.data.tags.includes(tag))
+        .sort((a: CollectionEntry<'blog'>, b: CollectionEntry<'blog'>) => b.data.date.getTime() - a.data.date.getTime()),
+    },
+  }));
+}
+
+interface Props { tag: string; posts: CollectionEntry<'blog'>[]; }
+const { tag, posts } = Astro.props;
+---
+
+<BaseLayout title={`Field notes tagged “${tag}”`} description={`Technical writing tagged ${tag}.`}>
+  <h1 class="page-title">// FIELD NOTES</h1>
+  <p class="dim filter-line">
+    filtered by <span class="tag active">{tag}</span> — {posts.length} {posts.length === 1 ? 'note' : 'notes'}
+    <a href="/blog" class="clear-filter">[ clear × ]</a>
+  </p>
+
+  <PostList posts={posts} />
+</BaseLayout>
+
+<style>
+  .page-title { font-size: 2rem; margin-bottom: 0.5rem; }
+  .filter-line { margin-bottom: 2rem; display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; }
+  .tag.active { color: var(--amber); border-color: var(--amber); }
+  .clear-filter { font-size: 0.85rem; }
+</style>
