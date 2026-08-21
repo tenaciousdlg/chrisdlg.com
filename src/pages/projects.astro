@@ -1,5 +1,13 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { getCollection, type CollectionEntry } from 'astro:content';
+
+// Stack chips cross-link into the blog when writing exists for that tech —
+// computed at build, so no dead links.
+const blogTags = new Set(
+  (await getCollection('blog', ({ data }: CollectionEntry<'blog'>) => !data.draft))
+    .flatMap((p: CollectionEntry<'blog'>) => p.data.tags)
+);
 
 const projects = [
   {
@@ -91,7 +99,13 @@ const projects = [
           <span class={`status-badge ${p.status === 'ACTIVE' ? 'active' : 'archive'}`}>{p.status}</span>
         </div>
         <div class="tags" style="margin:0.5rem 0;">
-          {p.stack.map((t) => <span class="tag">{t}</span>)}
+          {p.stack.map((t) =>
+            blogTags.has(t) ? (
+              <a class="tag tag-link" href={`/blog/tags/${t}/`} title={`field notes tagged ${t}`}>{t}</a>
+            ) : (
+              <span class="tag">{t}</span>
+            )
+          )}
         </div>
         <p class="project-desc">{p.description}</p>
         <a href={p.url} target="_blank" rel="noopener" class="card-link">{p.linkText ?? 'view on github'} &gt;</a>
@@ -103,6 +117,8 @@ const projects = [
 <style>
   .page-title { font-size: 2rem; margin-bottom: 0.5rem; }
   .project-list { list-style: none; padding: 0; display: grid; gap: 1.25rem; }
+  a.tag-link { text-decoration: none; }
+  a.tag-link:hover { color: var(--green-bright); border-color: var(--green-bright); }
 
   .project-card { padding: 1.25rem !important; }
   .card-header  { display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap; margin-bottom: 0.2rem; }

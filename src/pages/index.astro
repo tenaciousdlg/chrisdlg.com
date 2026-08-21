@@ -76,7 +76,7 @@ const posts = (await getCollection('blog', ({ data }: CollectionEntry<'blog'>) =
             )}
             {post.data.tags.length > 0 && (
               <span class="tags">
-                {post.data.tags.map((t: string) => <span class="tag">{t}</span>)}
+                {post.data.tags.map((t: string) => <a class="tag tag-link" href={`/blog/tags/${t}/`}>{t}</a>)}
               </span>
             )}
           </li>

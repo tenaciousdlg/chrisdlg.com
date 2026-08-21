@@ -4,15 +4,20 @@ import { getCollection, render, type CollectionEntry } from 'astro:content';
 
 export async function getStaticPaths() {
   // External linkposts have no local page — lists point at the canonical URL.
-  const posts = await getCollection('blog', ({ data }: CollectionEntry<'blog'>) => !data.draft && !data.external);
-  return posts.map((post: CollectionEntry<'blog'>) => ({
+  const posts = (await getCollection('blog', ({ data }: CollectionEntry<'blog'>) => !data.draft && !data.external))
+    .sort((a: CollectionEntry<'blog'>, b: CollectionEntry<'blog'>) => b.data.date.getTime() - a.data.date.getTime());
+  return posts.map((post: CollectionEntry<'blog'>, i: number) => ({
     params: { slug: post.id },
-    props: { post },
+    props: { post, newer: posts[i - 1] ?? null, older: posts[i + 1] ?? null },
   }));
 }
 
-interface Props { post: CollectionEntry<'blog'>; }
-const { post } = Astro.props;
+interface Props {
+  post: CollectionEntry<'blog'>;
+  newer: CollectionEntry<'blog'> | null;
+  older: CollectionEntry<'blog'> | null;
+}
+const { post, newer, older } = Astro.props;
 const { Content } = await render(post);
 ---
 
@@ -27,7 +32,7 @@ const { Content } = await render(post);
         </time>
         {post.data.tags.length > 0 && (
           <span class="tags">
-            {post.data.tags.map((t: string) => <span class="tag">{t}</span>)}
+            {post.data.tags.map((t: string) => <a class="tag tag-link" href={`/blog/tags/${t}/`}>{t}</a>)}
           </span>
         )}
       </div>
@@ -38,7 +43,15 @@ const { Content } = await render(post);
     </div>
 
     <footer class="post-footer">
-      <a href="/blog">&lt; back to field notes</a>
+      <nav class="post-nav">
+        {older ? (
+          <a href={`/blog/${older.id}/`} class="nav-older">&lt; {older.data.title}</a>
+        ) : <span />}
+        <a href="/blog" class="nav-index">all notes</a>
+        {newer ? (
+          <a href={`/blog/${newer.id}/`} class="nav-newer">{newer.data.title} &gt;</a>
+        ) : <span />}
+      </nav>
     </footer>
   </article>
 </BaseLayout>
@@ -48,6 +61,12 @@ const { Content } = await render(post);
   .post-title  { font-size: 2rem; margin: 0.75rem 0 0.5rem; line-height: 1.2; }
   .post-meta   { display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center; font-size: 0.85rem; }
   .post-footer { margin-top: 3rem; padding-top: 1rem; border-top: 1px solid var(--border); }
+  .post-nav { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; font-size: 0.85rem; flex-wrap: wrap; }
+  .nav-older, .nav-newer { max-width: 40%; }
+  .nav-newer { text-align: right; }
+  .nav-index { color: var(--amber); white-space: nowrap; }
+  a.tag-link { text-decoration: none; }
+  a.tag-link:hover { color: var(--green-bright); border-color: var(--green-bright); }
 
   /* ── Prose styles ─── */
   .prose { color: var(--white); max-width: 720px; }
