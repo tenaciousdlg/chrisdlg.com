@@ -9,7 +9,12 @@ import sitemap from '@astrojs/sitemap';
 export default defineConfig({
   output: 'static',
   site: 'https://chrisdlg.com',
-  integrations: [sitemap()],
+  integrations: [
+    sitemap({
+      // /arcade is live but unlisted until the deck-lore post ships.
+      filter: (page) => !page.includes('/arcade'),
+    }),
+  ],
   vite: {
     build: {
       // Never inline component <script>s into HTML — external files let
