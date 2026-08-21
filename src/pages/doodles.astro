@@ -1,21 +1,40 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { Image } from 'astro:assets';
+
+// Build-time optimization (sharp): originals live in src/assets/doodles and
+// ship as responsive AVIF/WebP at gallery width — the raw files were ~10MB
+// of PNG/JPG for a two-column grid.
+import logo from '../assets/doodles/logo.png';
+import youAndI from '../assets/doodles/you_and_i.jpg';
+import threeAmigos from '../assets/doodles/three_amigos.png';
+import helloWhale from '../assets/doodles/hello_whale.png';
+import floating from '../assets/doodles/floating.png';
+import ah1 from '../assets/doodles/ah_1.png';
+import ah2 from '../assets/doodles/ah_2.png';
+import hi from '../assets/doodles/hi.png';
+import smile from '../assets/doodles/smile.png';
+import selfDrawing from '../assets/doodles/self_drawing.png';
+import archie1 from '../assets/doodles/archie_1.jpg';
+import pomeranian from '../assets/doodles/pomeranian.jpeg';
+import scribble from '../assets/doodles/scribble.png';
+import signature from '../assets/doodles/signature.png';
 
 const pieces = [
-  { src: '/doodles/logo.png',           title: 'Logo' },
-  { src: '/doodles/you_and_i.jpg',      title: 'You & I' },
-  { src: '/doodles/three_amigos.png',   title: 'Three Amigos' },
-  { src: '/doodles/hello_whale.png',    title: 'Hello Whale' },
-  { src: '/doodles/floating.png',       title: 'Float' },
-  { src: '/doodles/ah_1.png',           title: 'AH!' },
-  { src: '/doodles/ah_2.png',           title: 'AH! (sketch)' },
-  { src: '/doodles/hi.png',             title: 'Hi' },
-  { src: '/doodles/smile.png',          title: 'Smile' },
-  { src: '/doodles/self_drawing.png',   title: 'Self Portrait' },
-  { src: '/doodles/archie_1.jpg',       title: 'Archie' },
-  { src: '/doodles/pomeranian.jpeg',    title: 'Pomeranian' },
-  { src: '/doodles/scribble.png',       title: 'Scribble' },
-  { src: '/doodles/signature.png',      title: 'Signature' },
+  { src: logo,        title: 'Logo' },
+  { src: youAndI,     title: 'You & I' },
+  { src: threeAmigos, title: 'Three Amigos' },
+  { src: helloWhale,  title: 'Hello Whale' },
+  { src: floating,    title: 'Float' },
+  { src: ah1,         title: 'AH!' },
+  { src: ah2,         title: 'AH! (sketch)' },
+  { src: hi,          title: 'Hi' },
+  { src: smile,       title: 'Smile' },
+  { src: selfDrawing, title: 'Self Portrait' },
+  { src: archie1,     title: 'Archie' },
+  { src: pomeranian,  title: 'Pomeranian' },
+  { src: scribble,    title: 'Scribble' },
+  { src: signature,   title: 'Signature' },
 ];
 ---
 
@@ -27,7 +46,16 @@ const pieces = [
     {pieces.map(p => (
       <figure class="piece">
         <div class="piece-img-wrap">
-          <img src={p.src} alt={p.title} loading="lazy" draggable="false" />
+          <Image
+            src={p.src}
+            alt={p.title}
+            widths={[400, 700]}
+            sizes="(max-width: 680px) 95vw, 45vw"
+            format="avif"
+            quality="mid"
+            loading="lazy"
+            draggable="false"
+          />
           <div class="piece-shield" aria-hidden="true"></div>
         </div>
         <figcaption>{p.title}</figcaption>

@@ -10,6 +10,10 @@
 
 /*
   Content-Security-Policy: default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self'; font-src 'self'; connect-src 'self'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'; upgrade-insecure-requests
+  # Early Hints fuel: the zone setting is on, but Cloudflare can only send a
+  # 103 for Link headers present in the response. Fonts are the render-critical
+  # fetch on every page.
+  Link: </fonts/share-tech-mono-latin-400.woff2>; rel=preload; as=font; crossorigin, </fonts/vt323-latin-400.woff2>; rel=preload; as=font; crossorigin
   X-Content-Type-Options: nosniff
   X-Frame-Options: DENY
   Referrer-Policy: strict-origin-when-cross-origin
