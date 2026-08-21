@@ -39,6 +39,12 @@ const ogImageURL = new URL(ogImage, Astro.site ?? Astro.url).toString();
     <link rel="alternate" type="application/rss+xml" title="chrisdlg.com" href="/rss.xml" />
     <link rel="preload" href="/fonts/share-tech-mono-latin-400.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="/fonts/vt323-latin-400.woff2" as="font" type="font/woff2" crossorigin />
+    <!-- Web Analytics (RUM) — token is public by design; CSP allowlists the
+         two insights hosts in public/_headers. -->
+    <!-- The beacon token is PUBLIC by design (it appears in every page's
+         HTML for every visitor); it only identifies which RUM site to
+         attribute metrics to. -->
+    <script is:inline defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "6f89d629a0b34c328369d517f03747f0"}'></script><!-- gitleaks:allow -->
   </head>
   <body>
     <Nav />
