@@ -1,0 +1,246 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="Arcade"
+  description="La Lotería Oscura — a dark-fantasy Lotería round played with the deck that names my homelab."
+>
+  <h1 class="page-title glitch">// LA LOTERÍA OSCURA</h1>
+  <p class="dim" style="margin-bottom:0.5rem;">
+    Lotería, pulled toward the abyss. Every card in this deck names a real piece
+    of my homelab — the caller sings the pregón, you mark the tabla.
+    Three in a line: <span class="amber">¡LOTERÍA!</span> Fill the board:
+    <span class="amber">TABLA LLENA</span>.
+  </p>
+  <p class="dim" style="margin-bottom:2rem; font-size:0.85rem;">
+    Deck lore — why a NAS is an eternal skull and a router is a fractured
+    world — coming to field notes.
+  </p>
+
+  <div id="hud" class="hud box">
+    <button id="start" class="btn">▶ START RUN</button>
+    <label class="dim speed-label">
+      caller&nbsp;
+      <select id="speed">
+        <option value="6000">patient</option>
+        <option value="4500" selected>steady</option>
+        <option value="3000">merciless</option>
+      </select>
+    </label>
+    <span class="hud-stat">⏱ <span id="timer">0.0s</span></span>
+    <span class="hud-stat dim">best: <span id="best">—</span></span>
+  </div>
+
+  <div class="table">
+    <section class="caller box" data-title="EL CANTOR">
+      <div id="card-face" class="card-face idle">
+        <div class="cf-sigil" id="cf-sigil">◈</div>
+        <div class="cf-name" id="cf-name">EL CANTOR ESPERA</div>
+        <div class="cf-verse dim" id="cf-verse">Press start. The deck knows your machines.</div>
+      </div>
+      <div class="called-strip dim" id="called-strip" aria-live="polite"></div>
+      <div class="deck-count dim" id="deck-count"></div>
+    </section>
+
+    <section class="board-wrap box" data-title="LA TABLA">
+      <div id="board" class="board" role="grid" aria-label="Your tabla"></div>
+      <div id="verdict" class="verdict" aria-live="assertive"></div>
+    </section>
+  </div>
+</BaseLayout>
+
+<script>
+  type Card = { id: string; name: string; en: string; verse: string; kind: 'host' | 'label' };
+
+  // The deck that names the homelab — see the (forthcoming) field note.
+  const DECK: Card[] = [
+    { id: 'diablito',  name: 'El Diablito',              en: 'The Little Devil',        kind: 'host',  verse: 'Unchanged — already iconic. The gaming rig that burns hottest.' },
+    { id: 'sirena',    name: 'La Sirena Abisal',         en: 'The Abyssal Siren',       kind: 'host',  verse: 'The mermaid, pulled into deep water. She sings your media back to you.' },
+    { id: 'calavera',  name: 'La Calavera Eterna',       en: 'The Eternal Skull',       kind: 'host',  verse: 'Death — but specifically what remains after. The backups outlive us all.' },
+    { id: 'arbol',     name: 'El Árbol de Huesos',       en: 'The Bone Tree',           kind: 'host',  verse: 'One root, many branches, none of them alive in the usual way.' },
+    { id: 'mundo',     name: 'El Mundo Fracturado',      en: 'The Fractured World',     kind: 'host',  verse: 'The globe, shattered, held together by something you cannot see.' },
+    { id: 'alacran',   name: 'El Alacrán de Sangre',     en: 'The Blood Scorpion',      kind: 'label', verse: 'Already a danger card. Sharpened. It stings what the edge lets through.' },
+    { id: 'corona',    name: 'La Corona Caída',          en: 'The Fallen Crown',        kind: 'label', verse: 'A crown that cost something to wear. Every secret has a price.' },
+    { id: 'arana',     name: 'La Araña Tejenoches',      en: 'The Night-Weaving Spider', kind: 'host', verse: 'A web spun through every room, sensing the smallest change.' },
+    { id: 'cotorro',   name: 'El Cotorro Viajero',       en: 'The Traveling Parrot',    kind: 'host',  verse: 'Repeats what it hears and carries it a thousand miles home.' },
+    { id: 'escalera',  name: 'La Escalera al Abismo',    en: 'The Ladder into the Abyss', kind: 'label', verse: 'Each rung down goes deeper toward what is protected.' },
+    { id: 'cantarito', name: 'El Cantarito del Forastero', en: "The Stranger's Pitcher", kind: 'label', verse: 'Hospitality, offered carefully, to someone from outside.' },
+    { id: 'mano',      name: 'La Mano que Todo Sabe',    en: 'The Hand That Knows All', kind: 'host',  verse: 'Always with you. An extension of yourself. It buzzes.' },
+    { id: 'luna',      name: 'La Luna que Vela',         en: 'The Watching Moon',       kind: 'host',  verse: 'Reflected light, always present, changing phase on the nightstand.' },
+  ];
+
+  const $ = (id: string) => document.getElementById(id)!;
+  const boardEl = $('board'), faceName = $('cf-name'), faceVerse = $('cf-verse'),
+    faceSigil = $('cf-sigil'), strip = $('called-strip'), deckCount = $('deck-count'),
+    verdict = $('verdict'), timerEl = $('timer'), bestEl = $('best'),
+    startBtn = $('start') as HTMLButtonElement, speedSel = $('speed') as HTMLSelectElement;
+
+  const BEST_KEY = 'loteria-oscura-best';
+  const fmt = (ms: number) => (ms / 1000).toFixed(1) + 's';
+  const initials = (name: string) =>
+    name.split(' ').filter(w => w.length > 2 || /^[A-ZÁÉ]/.test(w)).map(w => w[0]).join('').slice(0, 3).toUpperCase();
+
+  let order: Card[] = [], tabla: Card[] = [], called = new Set<string>(),
+    marked = new Set<string>(), drawTimer = 0, tickTimer = 0, t0 = 0, running = false;
+
+  const shuffle = <T,>(a: T[]) => { const x = [...a]; for (let i = x.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [x[i], x[j]] = [x[j], x[i]]; } return x; };
+
+  function showBest() {
+    const b = localStorage.getItem(BEST_KEY);
+    bestEl.textContent = b ? fmt(Number(b)) : '—';
+  }
+
+  function renderBoard() {
+    boardEl.innerHTML = '';
+    tabla.forEach(card => {
+      const b = document.createElement('button');
+      b.className = 'cell';
+      b.setAttribute('role', 'gridcell');
+      b.dataset.id = card.id;
+      b.innerHTML = `<span class="cell-sigil">${initials(card.name)}</span><span class="cell-name">${card.name}</span><span class="cell-kind dim">${card.kind === 'host' ? '◈ hostname' : '✦ label'}</span><span class="cell-mark" aria-hidden="true">☠</span>`;
+      b.addEventListener('click', () => tryMark(card.id, b));
+      boardEl.appendChild(b);
+    });
+  }
+
+  function tryMark(id: string, el: HTMLElement) {
+    if (!running || marked.has(id)) return;
+    if (!called.has(id)) { el.classList.add('shake'); setTimeout(() => el.classList.remove('shake'), 350); return; }
+    marked.add(id);
+    el.classList.add('marked');
+    checkWin();
+  }
+
+  const LINES = [[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
+  function checkWin() {
+    const m = tabla.map(c => marked.has(c.id));
+    const line = LINES.some(l => l.every(i => m[i]));
+    const full = m.every(Boolean);
+    if (full) return endRun('TABLA LLENA', true);
+    if (line) return endRun('¡LOTERÍA!', true);
+  }
+
+  function draw() {
+    const card = order.shift();
+    if (!card) {
+      faceName.textContent = 'EL MAZO SE AGOTÓ';
+      faceVerse.textContent = 'The deck is spent and the table is quiet. Run it back.';
+      return endRun('', false);
+    }
+    called.add(card.id);
+    faceSigil.textContent = initials(card.name);
+    faceName.textContent = card.name.toUpperCase();
+    faceVerse.textContent = `${card.verse}  (${card.en})`;
+    $('card-face').classList.remove('idle');
+    $('card-face').classList.remove('flip'); void ($('card-face') as HTMLElement).offsetWidth;
+    $('card-face').classList.add('flip');
+    const tag = document.createElement('span');
+    tag.className = 'called-tag';
+    tag.textContent = initials(card.name);
+    strip.appendChild(tag);
+    deckCount.textContent = `${order.length} cards left in the mazo`;
+  }
+
+  function endRun(msg: string, won: boolean) {
+    running = false;
+    clearInterval(drawTimer); clearInterval(tickTimer);
+    startBtn.disabled = false;
+    startBtn.textContent = '▶ RUN IT BACK';
+    if (won) {
+      const elapsed = Date.now() - t0;
+      verdict.textContent = `${msg} — ${fmt(elapsed)}`;
+      verdict.classList.add('won');
+      const best = localStorage.getItem(BEST_KEY);
+      if (!best || elapsed < Number(best)) {
+        localStorage.setItem(BEST_KEY, String(elapsed));
+        verdict.textContent += '  ★ new best';
+      }
+      showBest();
+    } else {
+      verdict.textContent = 'no line — the abyss keeps this one';
+      verdict.classList.remove('won');
+    }
+  }
+
+  function start() {
+    order = shuffle(DECK);
+    tabla = shuffle(DECK).slice(0, 9);
+    called = new Set(); marked = new Set();
+    verdict.textContent = ''; verdict.classList.remove('won');
+    strip.innerHTML = '';
+    renderBoard();
+    running = true;
+    startBtn.disabled = true;
+    startBtn.textContent = 'EL CANTOR CANTA…';
+    t0 = Date.now();
+    tickTimer = window.setInterval(() => { timerEl.textContent = fmt(Date.now() - t0); }, 100);
+    draw();
+    drawTimer = window.setInterval(draw, Number(speedSel.value));
+  }
+
+  startBtn.addEventListener('click', start);
+  showBest();
+</script>
+
+<style>
+  .page-title { font-size: 2rem; margin-bottom: 0.75rem; }
+
+  .hud { display: flex; align-items: center; gap: 1.25rem; flex-wrap: wrap; padding: 0.9rem 1.25rem !important; margin-bottom: 1.5rem; }
+  .btn {
+    font-family: var(--font-pixel); font-size: 0.95rem; cursor: pointer;
+    background: var(--bg-3); color: var(--amber); border: 1px solid var(--amber);
+    padding: 0.5rem 1rem;
+  }
+  .btn:hover:not(:disabled) { color: var(--green-bright); border-color: var(--green-bright); text-shadow: var(--glow-strong); }
+  .btn:disabled { opacity: 0.6; cursor: default; }
+  .speed-label { font-size: 0.85rem; }
+  select { background: var(--bg-3); color: var(--green); border: 1px solid var(--border); font-family: var(--font-mono); padding: 0.25rem; }
+  .hud-stat { font-size: 0.9rem; }
+
+  .table { display: grid; grid-template-columns: minmax(260px, 1fr) minmax(300px, 1.4fr); gap: 1.25rem; }
+  @media (max-width: 720px) { .table { grid-template-columns: 1fr; } }
+
+  .caller { padding: 1.25rem !important; }
+  .card-face {
+    border: 2px solid var(--amber); background: var(--bg-2);
+    min-height: 220px; padding: 1.25rem; text-align: center;
+    display: flex; flex-direction: column; justify-content: center; gap: 0.6rem;
+  }
+  .card-face.idle { border-style: dashed; opacity: 0.75; }
+  .card-face.flip { animation: flip 0.45s ease; }
+  @keyframes flip { 0% { transform: rotateX(85deg); opacity: 0.2; } 100% { transform: rotateX(0); opacity: 1; } }
+  .cf-sigil { font-family: var(--font-pixel); font-size: 2.4rem; color: var(--amber); text-shadow: var(--glow-strong); }
+  .cf-name { font-family: var(--font-pixel); font-size: 1.05rem; color: var(--green-bright); }
+  .cf-verse { font-size: 0.85rem; line-height: 1.5; }
+  .called-strip { display: flex; flex-wrap: wrap; gap: 0.3rem; margin-top: 0.9rem; min-height: 1.4rem; }
+  .called-tag { border: 1px solid var(--border); padding: 0 0.35rem; font-size: 0.75rem; color: var(--green-dim); }
+  .deck-count { margin-top: 0.5rem; font-size: 0.8rem; }
+
+  .board-wrap { padding: 1.25rem !important; }
+  .board { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem; }
+  .cell {
+    position: relative; cursor: pointer; text-align: center;
+    background: var(--bg-2); border: 1px solid var(--border); color: var(--white);
+    padding: 0.75rem 0.4rem; min-height: 108px;
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.3rem;
+    font-family: var(--font-mono);
+  }
+  .cell:hover { border-color: var(--amber); }
+  .cell-sigil { font-family: var(--font-pixel); font-size: 1.3rem; color: var(--amber); }
+  .cell-name { font-size: 0.78rem; line-height: 1.25; }
+  .cell-kind { font-size: 0.65rem; }
+  .cell-mark {
+    position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+    font-size: 3rem; color: var(--green-bright); text-shadow: var(--glow-strong);
+    opacity: 0; pointer-events: none; transition: opacity 0.2s;
+  }
+  .cell.marked { border-color: var(--green-bright); }
+  .cell.marked .cell-mark { opacity: 0.85; }
+  .cell.marked .cell-sigil, .cell.marked .cell-name, .cell.marked .cell-kind { opacity: 0.25; }
+  .cell.shake { animation: shake 0.3s; border-color: #a33; }
+  @keyframes shake { 25% { transform: translateX(-4px); } 75% { transform: translateX(4px); } }
+
+  .verdict { margin-top: 1rem; min-height: 1.6rem; font-family: var(--font-pixel); font-size: 1.1rem; color: var(--green-dim); }
+  .verdict.won { color: var(--amber); text-shadow: var(--glow-strong); }
+</style>
