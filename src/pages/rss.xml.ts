@@ -10,6 +10,10 @@ export async function GET(context: APIContext) {
     title: 'chrisdlg.com',
     description: 'Field notes on infrastructure, security, and open source.',
     site: context.site!,
+    // rel=self is the one spot the feed's own absolute URL belongs
+    // (W3C feed validator flags its absence).
+    xmlns: { atom: 'http://www.w3.org/2005/Atom' },
+    customData: `<atom:link href="${new URL('rss.xml', context.site).href}" rel="self" type="application/rss+xml"/>`,
     items: posts.map((post) => ({
       title: post.data.title,
       pubDate: post.data.date,
