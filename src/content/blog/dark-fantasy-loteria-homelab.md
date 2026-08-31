@@ -21,7 +21,7 @@ Every card starts as a real Lotería card. The twist stays close enough to the o
 | **El Diablito** | Unchanged — already iconic | My gaming/AI PC (Ryzen 7 7800X3D, RTX 4080) — hostname |
 | **La Sirena Abisal** (The Abyssal Siren) | Classic mermaid pulled into deep-water horror | Jellyfin/Plex — hostname, once it has a box |
 | **La Calavera Eterna** (The Eternal Skull) | Death, but specifically what *remains* after | NAS/backups — hostname |
-| **El Árbol de Huesos** (The Bone Tree) | The tree card, skeletal — one root, many branches | Proxmox host — hostname |
+| **El Árbol de Huesos** (The Hollow Tree) | The tree card, hollowed — one root, many branches | Proxmox host + NAS — hostname, live as `hollowtree` |
 | **El Mundo Fracturado** (The Fractured World) | The globe, shattered, held together by something | Ubiquiti gateway/router — hostname *and* shorthand for "the network as a whole" |
 | **El Alacrán de Sangre** (The Blood Scorpion) | Already a danger card, sharpened | The WAF ruleset (`chrisdlg-com.tf`) — documentation label, not a hostname |
 | **La Corona Caída** (The Fallen Crown) | A crown that cost something to wear | Vault — thematic label layered on an already-named service |
