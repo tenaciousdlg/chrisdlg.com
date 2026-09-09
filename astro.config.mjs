@@ -10,10 +10,7 @@ export default defineConfig({
   output: 'static',
   site: 'https://chrisdlg.com',
   integrations: [
-    sitemap({
-      // /arcade is live but unlisted until the deck-lore post ships.
-      filter: (page) => !page.includes('/arcade'),
-    }),
+    sitemap(),
   ],
   vite: {
     build: {
