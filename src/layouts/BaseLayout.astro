@@ -9,7 +9,7 @@ interface Props {
   ogImage?: string;
 }
 
-const { title, description = 'Chris De La Garza — Sr. Solutions Engineer. Infrastructure, security, and open source.', ogImage = '/avatar.png' } = Astro.props;
+const { title, description = 'Chris De La Garza — Staff Solutions Engineer. Infrastructure, security, and open source.', ogImage = '/avatar.png' } = Astro.props;
 const fullTitle = title === 'Home' ? 'chrisdlg.com' : `${title} // chrisdlg.com`;
 const canonicalURL = Astro.url;
 const ogImageURL = new URL(ogImage, Astro.site ?? Astro.url).toString();

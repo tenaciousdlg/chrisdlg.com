@@ -1,0 +1,126 @@
+{
+  "_comment": "Single source for /resume AND the three PDFs in public/. Edit here, then run scripts/build_resume_pdfs.py. **bold** marks highlights, [text](url) marks links. onepage:true bullets are the ones kept on the 1-page PDF.",
+  "name": "Chris De La Garza",
+  "title": "Staff Solutions Engineer",
+  "company": "Teleport",
+  "location": "Austin, TX / Denver, CO",
+  "location_short": "Austin, TX",
+  "email": "hi@chrisdlg.com",
+  "linkedin": "linkedin.com/in/cdlg",
+  "github": "tenaciousdlg",
+  "honors": [
+    "SE of the Year · FY25",
+    "146.5% Quota Attainment · FY26"
+  ],
+  "summary": "Infrastructure Engineer turned Solutions Engineer with a decade of building, breaking, and securing systems across bare metal, cloud, and Kubernetes. Known for building demo and enablement systems that outlast the engagement. Today I'm a Staff Solutions Engineer on Teleport's enterprise team and the SE org's Terraform SME.",
+  "experience": [
+    {
+      "company": "Teleport",
+      "roles": [
+        {
+          "title": "Staff Solutions Engineer",
+          "dates": "Oct 2026 – Present",
+          "intro": "Staff Solutions Engineer across Teleport's enterprise segment. I own the technical side of complex engagements.",
+          "bullets": [
+            { "text": "Own technical pre-sales for strategic enterprise accounts, including solution design from discovery through close", "onepage": true },
+            { "text": "Terraform SME for the SE organization: reusable modules, the Teleport Terraform provider, and the IaC patterns the team builds on", "onepage": true },
+            { "text": "Own the demo framework project used for conference demos, aligning technical and non-technical teams on what we demo", "onepage": true },
+            { "text": "Mentor SEs and run internal training on Terraform and demo delivery" },
+            { "text": "Build custom demos for emerging capabilities, including Machine & Workload Identity and Beams" }
+          ]
+        },
+        {
+          "title": "Senior Solutions Engineer",
+          "dates": "Sep 2023 – Oct 2026",
+          "bullets": [
+            { "text": "Enterprise pre-sales across AWS, GCP, Azure, and on-prem; closed the **largest deal in company history** (FY25)", "onepage": true },
+            { "text": "Named **Solutions Engineer of the Year FY25**; exceeded quota every year at Teleport, including **146.5% attainment in FY26**", "onepage": true },
+            { "text": "Designed and authored the [teleport-terraform reference architecture](https://github.com/tenaciousdlg/teleport-terraform), a full IaC template (EKS control plane, RBAC, SCIM, plugins, database access) adopted as the team's standard demo foundation", "onepage": true },
+            { "text": "Rebuilt conference demo infrastructure as documented, repeatable playbooks adopted across the SE org, reducing setup time and improving demo consistency at field events" },
+            { "text": "Delivered product demonstrations covering SSH, RDP, Kubernetes, database access, and machine identity across complex customer environments" },
+            { "text": "Mentored and supported junior SEs on technical architecture and demo delivery" }
+          ]
+        }
+      ]
+    },
+    {
+      "company": "Cloudflare",
+      "roles": [
+        {
+          "title": "Solutions Engineer – Strategic Accounts",
+          "dates": "Feb 2022 – Sep 2023",
+          "bullets": [
+            { "text": "Technical lead for Central and West Field/Strategic teams supporting Fortune 500 accounts", "onepage": true },
+            { "text": "North America SME for API Shield, Cloudflare Tunnel, Docker, and Terraform", "onepage": true },
+            { "text": "Built new-hire training program that cut SE onboarding from **9 months to 90 days**", "onepage": true },
+            { "text": "Created Terraform examples and reusable templates for Cloudflare Tunnels deployment at scale (Terraform + Ansible + Docker)" },
+            { "text": "Assisted with team interviews and organizational structure for Strategic SE team buildout" }
+          ]
+        }
+      ]
+    },
+    {
+      "company": "NGINX, Inc.",
+      "roles": [
+        {
+          "title": "Solutions Engineer III",
+          "dates": "Jun 2021 – Dec 2021",
+          "bullets": [
+            { "text": "Collaborated directly with core engineering and product on feature direction for financial and public sector clients", "onepage": true },
+            { "text": "Designed hybrid bare-metal-to-cloud solutions involving Kubernetes microservices architecture", "onepage": true },
+            { "text": "Co-facilitated NGINX Sprint API management workshop including development, testing, and delivery" }
+          ]
+        }
+      ]
+    },
+    {
+      "company": "Cloudflare, Inc.",
+      "roles": [
+        {
+          "title": "Solutions Engineer",
+          "dates": "Apr 2019 – May 2021",
+          "bullets": [
+            { "text": "Technical sales expert across the full Cloudflare product surface: CDN, DNS, WAF, Bot Management, Workers, Zero Trust", "onepage": true },
+            { "text": "Founding member of Austin Mid-Market SE team; helped establish team SOPs and cultural foundation", "onepage": true },
+            { "text": "Technical lead supporting up to 15 Account Executives" },
+            { "text": "Developed reproducible demos via Terraform/shell scripting/Docker that became standardized tooling for the SE org" },
+            { "text": "Led SE booth and back-end demo infrastructure at Cloudflare Connect Conference 2019" }
+          ]
+        }
+      ]
+    },
+    {
+      "company": "Rackspace",
+      "roles": [
+        {
+          "title": "Linux System Engineer II → I → Support",
+          "dates": "Oct 2015 – Apr 2019",
+          "bullets": [
+            { "text": "Managed Linux systems (RHEL/Debian) for dedicated and cloud customers: Apache, MySQL, PHP, DNS, SSH", "onepage": true },
+            { "text": "Progressed from L1 support through Linux Sys Engineer II in ~3.5 years", "onepage": true },
+            { "text": "Implemented automation to reduce repetitive escalation work; mentored junior technicians" },
+            { "text": "Supported environments ranging from single LAMP stacks to large enterprise AWS/Azure/VMware deployments" }
+          ]
+        }
+      ]
+    }
+  ],
+  "proficiency": {
+    "expert": ["Pre-Sales / Solutions Engineering", "Linux Systems Administration", "Bash / Shell Scripting", "Infrastructure as Code (Terraform)"],
+    "proficient": ["Network Security / Zero Trust", "Kubernetes / Container Orchestration", "Cloud Platforms (AWS / GCP / Azure)", "Technical Enablement & Training"],
+    "familiar": ["Python", "Go", "JavaScript"]
+  },
+  "stack": [
+    { "group": "Infrastructure", "items": ["Terraform / OpenTofu", "Ansible", "Docker / Docker Compose", "Kubernetes (EKS, GKE, AKS)", "Cloudflare Tunnels"] },
+    { "group": "Cloud & Networking", "items": ["AWS (EC2, EKS, IAM, VPC, S3)", "GCP / Azure", "Cloudflare (CDN, WAF, Workers, Zero Trust)", "DNS, SSL/TLS, BGP basics"] },
+    { "group": "Security & Identity", "items": ["Teleport (PAM / Zero Trust)", "Okta (SAML, SCIM, SSO)", "mTLS, PKI, certificate management", "RBAC / access request workflows"] },
+    { "group": "Databases & Apps", "items": ["PostgreSQL, MySQL / MariaDB", "MongoDB, Cassandra", "NGINX, Apache", "Python (Flask), Bash"] }
+  ],
+  "education": {
+    "school": "Texas A&M University – Corpus Christi",
+    "degree": "B.B.A., Bachelor of Business Administration",
+    "years": "2011–2014",
+    "honors": "Dean's List: Spring 2013, Spring 2014"
+  },
+  "certifications": ["Great Demo! Practitioner"]
+}

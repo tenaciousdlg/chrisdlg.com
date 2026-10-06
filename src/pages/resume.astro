@@ -1,8 +1,17 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import resume from '../data/resume.json';
+
+// resume.json is the single source for this page AND the PDFs in public/
+// (scripts/build_resume_pdfs.py). Inline markup there: **bold**, [text](url).
+const esc = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+const md = (s: string) =>
+  esc(s)
+    .replace(/\*\*(.+?)\*\*/g, '<strong class="amber">$1</strong>')
+    .replace(/\[([^\]]+)\]\((https?:[^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>');
 ---
 
-<BaseLayout title="Resume" description="Chris De La Garza — Senior Solutions Engineer. Infrastructure, security, cloud, and pre-sales.">
+<BaseLayout title="Resume" description={`${resume.name} — ${resume.title}. Infrastructure, security, cloud, and pre-sales.`}>
   <h1 class="glitch page-title">// CHARACTER SHEET</h1>
 
   <!-- Download block -->
@@ -28,26 +37,22 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   <div class="box" data-title="IDENTITY">
     <div class="identity-grid">
       <div>
-        <div class="field"><span class="label">NAME</span><span class="value">Chris De La Garza</span></div>
-        <div class="field"><span class="label">CLASS</span><span class="value amber">Senior Solutions Engineer</span></div>
-        <div class="field"><span class="label">COMPANY</span><span class="value">Teleport</span></div>
-        <div class="field"><span class="label">LOCATION</span><span class="value">Austin, TX / Denver, CO</span></div>
+        <div class="field"><span class="label">NAME</span><span class="value">{resume.name}</span></div>
+        <div class="field"><span class="label">CLASS</span><span class="value amber">{resume.title}</span></div>
+        <div class="field"><span class="label">COMPANY</span><span class="value">{resume.company}</span></div>
+        <div class="field"><span class="label">LOCATION</span><span class="value">{resume.location}</span></div>
       </div>
       <div>
-        <div class="field"><span class="label">CONTACT</span><a href="mailto:hi@chrisdlg.com">hi@chrisdlg.com</a></div>
-        <div class="field"><span class="label">LINKEDIN</span><a href="https://linkedin.com/in/cdlg" target="_blank" rel="noopener">linkedin.com/in/cdlg</a></div>
-        <div class="field"><span class="label">GITHUB</span><a href="https://github.com/tenaciousdlg" target="_blank" rel="noopener">tenaciousdlg</a></div>
-        <div class="field"><span class="label">HONORS</span><span class="value amber">SE of the Year · FY25</span></div>
-        <div class="field"><span class="label"></span><span class="value amber">146.5% Quota Attainment · FY26</span></div>
+        <div class="field"><span class="label">CONTACT</span><a href={`mailto:${resume.email}`}>{resume.email}</a></div>
+        <div class="field"><span class="label">LINKEDIN</span><a href={`https://${resume.linkedin}`} target="_blank" rel="noopener">{resume.linkedin}</a></div>
+        <div class="field"><span class="label">GITHUB</span><a href={`https://github.com/${resume.github}`} target="_blank" rel="noopener">{resume.github}</a></div>
+        {resume.honors.map((h, i) => (
+          <div class="field"><span class="label">{i === 0 ? 'HONORS' : ''}</span><span class="value amber">{h}</span></div>
+        ))}
       </div>
     </div>
     <div class="summary">
-      <p>
-        Infrastructure Engineer turned Solutions Engineer with a decade of building, breaking, and securing systems
-        across bare metal, cloud, and Kubernetes. Known for building demo and enablement systems that outlast the
-        engagement. Specializes in translating complex technical architecture
-        into clear business outcomes during pre-sales engagements.
-      </p>
+      <p>{resume.summary}</p>
     </div>
   </div>
 
@@ -56,29 +61,15 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     <div class="tier-grid">
       <div class="tier">
         <h3 class="tier-label expert">EXPERT</h3>
-        <ul>
-          <li>Pre-Sales / Solutions Engineering</li>
-          <li>Linux Systems Administration</li>
-          <li>Bash / Shell Scripting</li>
-          <li>Infrastructure as Code (Terraform)</li>
-        </ul>
+        <ul>{resume.proficiency.expert.map((x) => <li>{x}</li>)}</ul>
       </div>
       <div class="tier">
         <h3 class="tier-label proficient">PROFICIENT</h3>
-        <ul>
-          <li>Network Security / Zero Trust</li>
-          <li>Kubernetes / Container Orchestration</li>
-          <li>Cloud Platforms (AWS / GCP / Azure)</li>
-          <li>Technical Enablement &amp; Training</li>
-        </ul>
+        <ul>{resume.proficiency.proficient.map((x) => <li>{x}</li>)}</ul>
       </div>
       <div class="tier">
         <h3 class="tier-label familiar">FAMILIAR</h3>
-        <ul>
-          <li>Python</li>
-          <li>Go</li>
-          <li>JavaScript</li>
-        </ul>
+        <ul>{resume.proficiency.familiar.map((x) => <li>{x}</li>)}</ul>
       </div>
     </div>
   </div>
@@ -86,122 +77,32 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   <!-- Tech stack -->
   <div class="box" data-title="TECH STACK">
     <div class="stack-grid">
-      <div class="stack-group">
-        <h3>Infrastructure</h3>
-        <ul>
-          <li>Terraform / OpenTofu</li>
-          <li>Ansible</li>
-          <li>Docker / Docker Compose</li>
-          <li>Kubernetes (EKS, GKE, AKS)</li>
-          <li>Cloudflare Tunnels</li>
-        </ul>
-      </div>
-      <div class="stack-group">
-        <h3>Cloud &amp; Networking</h3>
-        <ul>
-          <li>AWS (EC2, EKS, IAM, VPC, S3)</li>
-          <li>GCP / Azure</li>
-          <li>Cloudflare (CDN, WAF, Workers, Zero Trust)</li>
-          <li>DNS, SSL/TLS, BGP basics</li>
-        </ul>
-      </div>
-      <div class="stack-group">
-        <h3>Security &amp; Identity</h3>
-        <ul>
-          <li>Teleport (PAM / Zero Trust)</li>
-          <li>Okta (SAML, SCIM, SSO)</li>
-          <li>mTLS, PKI, certificate management</li>
-          <li>RBAC / access request workflows</li>
-        </ul>
-      </div>
-      <div class="stack-group">
-        <h3>Databases &amp; Apps</h3>
-        <ul>
-          <li>PostgreSQL, MySQL / MariaDB</li>
-          <li>MongoDB, Cassandra</li>
-          <li>NGINX, Apache</li>
-          <li>Python (Flask), Bash</li>
-        </ul>
-      </div>
+      {resume.stack.map((g) => (
+        <div class="stack-group">
+          <h3>{g.group}</h3>
+          <ul>{g.items.map((x) => <li>{x}</li>)}</ul>
+        </div>
+      ))}
     </div>
   </div>
 
   <!-- Quest Log -->
   <div class="box" data-title="EXPERIENCE">
-
-    <div class="quest">
-      <div class="quest-header">
-        <span class="quest-company amber">Teleport</span>
-        <span class="quest-role">Senior Solutions Engineer</span>
-        <span class="quest-date dim">Sep 2023 – Present</span>
+    {resume.experience.map((job) => (
+      <div class="quest">
+        {job.roles.map((role, i) => (
+          <div class={i > 0 ? 'quest-role-block' : ''}>
+            <div class="quest-header">
+              {i === 0 && <span class="quest-company amber">{job.company}</span>}
+              <span class="quest-role">{role.title}</span>
+              <span class="quest-date dim">{role.dates}</span>
+            </div>
+            {role.intro && <p class="quest-intro">{role.intro}</p>}
+            <ul>{role.bullets.map((b) => <li set:html={md(b.text)} />)}</ul>
+          </div>
+        ))}
       </div>
-      <ul>
-        <li>Enterprise pre-sales across AWS, GCP, Azure, and on-prem — closed the <strong class="amber">largest deal in company history</strong></li>
-        <li>Named <strong class="amber">Solutions Engineer of the Year FY25</strong>; exceeded quota every year at Teleport including <strong class="amber">146.5% attainment in FY26</strong></li>
-        <li>Designed and authored the <a href="https://github.com/tenaciousdlg/teleport-terraform" target="_blank" rel="noopener">teleport-terraform reference architecture</a> — a full IaC template (EKS control plane, RBAC, SCIM, plugins, database access) adopted as the team's standard demo foundation</li>
-        <li>Rebuilt and championed codifying conference demo infrastructure into documented, repeatable playbooks across the SE org — reducing setup time and improving demo consistency at field events</li>
-        <li>Designed a 3-tier RBAC model integrating Okta group membership → Teleport Access Lists via SCIM, eliminating manual user management</li>
-        <li>Deliver product demonstrations covering SSH, RDP, Kubernetes, database access, and machine identity across complex customer environments</li>
-        <li>Mentor and support junior SEs on technical architecture and demo delivery</li>
-      </ul>
-    </div>
-
-    <div class="quest">
-      <div class="quest-header">
-        <span class="quest-company amber">Cloudflare</span>
-        <span class="quest-role">Solutions Engineer – Strategic Accounts</span>
-        <span class="quest-date dim">Feb 2022 – Sep 2023</span>
-      </div>
-      <ul>
-        <li>Technical lead for Central and West Field/Strategic teams supporting Fortune 500 accounts</li>
-        <li>North America SME for API Shield, Cloudflare Tunnel, Docker, and Terraform</li>
-        <li>Built new-hire training program that cut SE onboarding from <strong>9 months to 90 days</strong></li>
-        <li>Created Terraform examples and reusable templates for Cloudflare Tunnels deployment at scale (Terraform + Ansible + Docker)</li>
-        <li>Assisted with team interviews and organizational structure for Strategic SE team buildout</li>
-      </ul>
-    </div>
-
-    <div class="quest">
-      <div class="quest-header">
-        <span class="quest-company amber">NGINX, Inc.</span>
-        <span class="quest-role">Solutions Engineer III</span>
-        <span class="quest-date dim">Jun 2021 – Dec 2021</span>
-      </div>
-      <ul>
-        <li>Collaborated directly with core engineering and product on feature direction for financial and public sector clients</li>
-        <li>Designed hybrid bare-metal-to-cloud solutions involving Kubernetes microservices architecture</li>
-        <li>Co-facilitated NGINX Sprint API management workshop including development, testing, and delivery</li>
-      </ul>
-    </div>
-
-    <div class="quest">
-      <div class="quest-header">
-        <span class="quest-company amber">Cloudflare, Inc.</span>
-        <span class="quest-role">Solutions Engineer</span>
-        <span class="quest-date dim">Apr 2019 – May 2021</span>
-      </div>
-      <ul>
-        <li>Technical sales expert across the full Cloudflare product surface: CDN, DNS, WAF, Bot Management, Workers, Zero Trust</li>
-        <li>Founding member of Austin Mid-Market SE team; helped establish team SOPs and cultural foundation</li>
-        <li>Technical lead supporting up to 15 Account Executives</li>
-        <li>Developed reproducible demos via Terraform/shell scripting/Docker that became standardized tooling for the SE org</li>
-        <li>Led SE booth and back-end demo infrastructure at Cloudflare Connect Conference 2019</li>
-      </ul>
-    </div>
-
-    <div class="quest">
-      <div class="quest-header">
-        <span class="quest-company amber">Rackspace</span>
-        <span class="quest-role">Linux System Engineer II → I → Support</span>
-        <span class="quest-date dim">Oct 2015 – Apr 2019</span>
-      </div>
-      <ul>
-        <li>Managed Linux systems (RHEL/Debian) for dedicated and cloud customers: Apache, MySQL, PHP, DNS, SSH</li>
-        <li>Progressed from L1 support through Linux Sys Engineer II in ~3.5 years</li>
-        <li>Implemented automation to reduce repetitive escalation work; mentored junior technicians</li>
-        <li>Supported environments ranging from single LAMP stacks to large enterprise AWS/Azure/VMware deployments</li>
-      </ul>
-    </div>
+    ))}
   </div>
 
   <!-- Education & Certs -->
@@ -209,15 +110,13 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     <div class="lore-grid">
       <div>
         <h3>Education</h3>
-        <p><strong class="bright">Texas A&amp;M University – Corpus Christi</strong></p>
-        <p>B.B.A., Bachelor of Business Administration &nbsp;· 2011–2014</p>
-        <p class="dim">Dean's List: Spring 2013, Spring 2014</p>
+        <p><strong class="bright">{resume.education.school}</strong></p>
+        <p>{resume.education.degree} &nbsp;· {resume.education.years}</p>
+        <p class="dim">{resume.education.honors}</p>
       </div>
       <div>
         <h3>Certifications</h3>
-        <ul>
-          <li>Great Demo! Practitioner</li>
-        </ul>
+        <ul>{resume.certifications.map((c) => <li>{c}</li>)}</ul>
       </div>
     </div>
   </div>
@@ -285,6 +184,8 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   .quest-company { font-family: var(--font-pixel); font-size: 1.1rem; letter-spacing: 0.06em; }
   .quest-role { color: var(--white); }
   .quest-date { font-size: 0.85rem; }
+  .quest-role-block { margin-top: 1.1rem; }
+  .quest-intro { color: var(--white); margin-bottom: 0.5rem; font-size: 0.95rem; }
   .quest ul { list-style: none; padding: 0; }
   .quest li { padding-left: 1.2rem; position: relative; margin-bottom: 0.3rem; color: var(--green); }
   .quest li::before { content: '–'; position: absolute; left: 0; color: var(--green-dim); }

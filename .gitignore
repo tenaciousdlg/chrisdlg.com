@@ -24,3 +24,6 @@ pnpm-debug.log*
 
 # jetbrains setting folder
 .idea/
+
+# resume PDF generator venv (scripts/build_resume_pdfs.py)
+.venv-resume/
