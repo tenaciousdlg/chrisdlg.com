@@ -23,7 +23,7 @@ const projects = [
     name: 'teleport-terraform',
     url: 'https://github.com/tenaciousdlg/teleport-terraform',
     status: 'ACTIVE',
-    stack: ['terraform', 'teleport', 'aws'],
+    stack: ['terraform', 'teleport', 'aws', 'proxmox'],
     description:
       'Terraform templates and reusable modules for demonstrating Teleport features on AWS and on-prem Proxmox — control plane blueprints, single-feature data-plane demos, and multi-use-case profiles for SE-led POCs and workshops.',
   },
@@ -33,7 +33,7 @@ const projects = [
     status: 'ACTIVE',
     stack: ['zsh', 'teleport', 'powerlevel10k'],
     description:
-      'Zsh toolkit for Teleport-heavy terminals: a persona-aware powerlevel10k prompt segment (cert TTL, JIT elevation marker, pending-review badge), cached dynamic completions, no-reauth multi-cluster profile switching, and fzf pickers for nodes, databases, and apps.',
+      'Zsh toolkit for Teleport-heavy terminals: a persona-aware powerlevel10k prompt segment (cert TTL, JIT elevation marker, pending-review badge), cached dynamic completions, no-reauth multi-cluster profile switching, fzf pickers for nodes, databases, and apps, persona shells for demo identities, and tfenv for Terraform provider credentials from a Machine ID bot.',
   },
   {
     name: 'teleport-audit-report',
@@ -41,12 +41,12 @@ const projects = [
     status: 'ACTIVE',
     stack: ['go', 'teleport', 'postgres', 'docker'],
     description:
-      'Audit reporting for a Teleport cluster: session/access activity, access-request workflow, and compliance export. tbot and the Teleport Event Handler stream audit events into Postgres; a Go CLI queries it on demand — no SIEM required.',
+      'Audit reporting for a Teleport cluster: session/access activity, access-request workflow, and compliance export. tbot and the Teleport Event Handler stream audit events into Postgres; a Go CLI queries it on demand — no SIEM required. Installs with Homebrew from the tenaciousdlg/tap tap.',
   },
   {
     name: 'teleport-on-gke',
     url: 'https://github.com/tenaciousdlg/teleport-on-gke',
-    status: 'ACTIVE',
+    status: 'ARCHIVE',
     stack: ['terraform', 'teleport', 'gke', 'kubernetes'],
     description:
       'Full Teleport Enterprise deployment on GKE — control plane, RBAC, and data-plane test infrastructure — with Google OIDC, Firestore, and GCS session recordings. Built for POV demos where load balancers can\'t be exposed publicly.',
