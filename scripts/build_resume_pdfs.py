@@ -129,22 +129,25 @@ def build(out, theme, onepage):
     edu = [Paragraph(f"<b>{inline(e['school'], t)}</b>", S["body"]),
            Paragraph(f"{inline(e['degree'], t)} · {e['years']}", S["body"]),
            Paragraph(inline(e["honors"], t), S["body"])]
+    has_certs = bool(d["certifications"])
     certs = [Paragraph(f'<font name="Helvetica-Bold" color="{t["accent"]}">Certifications</font>', S["body"])]
     certs += [Paragraph("&gt; " + inline(c, t), S["body"]) for c in d["certifications"]]
-    table = Table([[edu, certs]], colWidths=["62%", "38%"])
+    table = Table([[edu, certs]] if has_certs else [[edu]],
+                  colWidths=["62%", "38%"] if has_certs else ["100%"])
     table.setStyle(TableStyle([("VALIGN", (0, 0), (-1, -1), "TOP"),
                                ("LEFTPADDING", (0, 0), (-1, -1), 0)]))
     story += [
         HRFlowable(width="100%", thickness=0.5, color=HexColor(t["dim"]),
                    spaceBefore=4, spaceAfter=4),
-        Paragraph("[ EDUCATION &amp; CERTIFICATIONS ]", S["section"]),
+        Paragraph("[ EDUCATION &amp; CERTIFICATIONS ]" if has_certs else "[ EDUCATION ]", S["section"]),
     ]
     if onepage:
         # One line on the 1-page cut; the two-column table costs three lines.
         story.append(Paragraph(
             f"<b>{inline(e['school'], t)}</b> · {inline(e['degree'], t)} · {e['years']}"
-            f'  |  <font name="Helvetica-Bold" color="{t["accent"]}">Certification:</font> '
-            + ", ".join(inline(c, t) for c in d["certifications"]), S["body"]))
+            + (f'  |  <font name="Helvetica-Bold" color="{t["accent"]}">Certification:</font> '
+               + ", ".join(inline(c, t) for c in d["certifications"]) if has_certs else ""),
+            S["body"]))
     else:
         story.append(table)
 

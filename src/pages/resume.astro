@@ -106,18 +106,20 @@ const md = (s: string) =>
   </div>
 
   <!-- Education & Certs -->
-  <div class="box" data-title="EDUCATION &amp; CERTIFICATIONS">
-    <div class="lore-grid">
+  <div class="box" data-title={resume.certifications.length ? 'EDUCATION & CERTIFICATIONS' : 'EDUCATION'}>
+    <div class={resume.certifications.length ? 'lore-grid' : ''}>
       <div>
         <h3>Education</h3>
         <p><strong class="bright">{resume.education.school}</strong></p>
         <p>{resume.education.degree} &nbsp;· {resume.education.years}</p>
         <p class="dim">{resume.education.honors}</p>
       </div>
-      <div>
-        <h3>Certifications</h3>
-        <ul>{resume.certifications.map((c) => <li>{c}</li>)}</ul>
-      </div>
+      {resume.certifications.length > 0 && (
+        <div>
+          <h3>Certifications</h3>
+          <ul>{resume.certifications.map((c) => <li>{c}</li>)}</ul>
+        </div>
+      )}
     </div>
   </div>
 </BaseLayout>
