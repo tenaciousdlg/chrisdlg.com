@@ -60,6 +60,23 @@ const projects = [
       'Flask application that demonstrates Teleport application access. Decodes the Teleport-Jwt-Assertion header and renders the authenticated user\'s identity, roles, and traits in a clean UI. Useful for SE demos showing what downstream apps can consume from Teleport.',
   },
   {
+    name: 'recipes.chrisdlg.com',
+    url: 'https://recipes.chrisdlg.com',
+    status: 'ACTIVE',
+    stack: ['astro', 'cloudflare'],
+    description:
+      'Structured personal cookbook: markdown recipes with validated frontmatter, batch scaling anchored on a primary ingredient, an aggregated shopping list grouped by store section, per-serving macros, and a cooking mode that keeps a propped-up phone awake and readable. Fully static Astro on Cloudflare Workers.',
+    linkText: 'open the cookbook',
+  },
+  {
+    name: 'dotfiles',
+    url: 'https://github.com/tenaciousdlg/dotfiles',
+    status: 'ACTIVE',
+    stack: ['zsh', 'powerlevel10k', 'gitleaks'],
+    description:
+      'My zsh setup: oh-my-zsh and powerlevel10k, aliases, functions, and small CLI tools, symlinked into $HOME by a bootstrap script so the repo and the live config are the same file. Includes a gitleaks pre-commit hook that runs on every repo on the machine and a direnv + Vault pattern for per-project secrets.',
+  },
+  {
     name: 'identity-aware-proxy-workshop',
     url: 'https://github.com/tenaciousdlg/identity-aware-proxy-workshop',
     status: 'ARCHIVE',
